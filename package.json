@@ -1,0 +1,27 @@
+{
+  "name": "scribbing",
+  "version": "0.0.1",
+  "description": "Language learning focused on user helping eachover",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syl-gauthier/scribbing.git"
+  },
+  "keywords": [
+    "language",
+    "list",
+    "learning"
+  ],
+  "author": "Sylvain Gauthier",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Syl-gauthier/scribbing/issues"
+  },
+  "homepage": "https://github.com/Syl-gauthier/scribbing#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
+}
