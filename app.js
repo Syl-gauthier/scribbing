@@ -3,9 +3,12 @@ require('dotenv').config();
 const express = require('express');
 var session = require('express-session');
 var passport = require('passport');
+var morgan = require('morgan');
 
 const app = express();
 var port = process.env.PORT || 3000;
+
+app.use(morgan('tiny'));
 
 //routers
 var authRouter = require('./routes/auth.js');
@@ -17,7 +20,8 @@ app.use(require('cookie-parser')());
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {maxAge: 1800000}
 }))
 
 app.use(passport.initialize());
@@ -33,8 +37,9 @@ app.get('/', function(req, res, next) {
     res.setHeader('Content-Type', 'text/html');
     res.write('<p>views: ' + sess.views + '</p>');
     res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
-    //console.log(req.user.name)
-    //res.write(req.user.name);
+    if (req.user) {
+      res.write(req.user.name);
+    }
     res.end();
   } else {1
     sess.views = 1;
