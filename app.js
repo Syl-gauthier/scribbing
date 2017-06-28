@@ -10,6 +10,8 @@ var port = process.env.PORT || 3000;
 
 app.use(morgan('tiny'));
 
+app.set('view engine', 'pug');
+
 //routers
 var authRouter = require('./routes/auth.js');
 
@@ -32,20 +34,28 @@ app.use('/auth', authRouter);
 
 app.get('/', function(req, res, next) {
   var sess = req.session
-  if (sess.views) {
-    sess.views++;
-    res.setHeader('Content-Type', 'text/html');
-    res.write('<p>views: ' + sess.views + '</p>');
-    res.write('<p>expires in: ' + (sess.cookie.maxAge / 1000) + 's</p>');
-    if (req.user) {
-      res.write(req.user.name);
-    }
-    res.end();
-  } else {1
-    sess.views = 1;
-    res.end('welcome to the session demo. refresh!');
+  if (req.user) {
+    res.redirect('/dashboard');
+  }
+  else {
+    res.render('index');
   }
 })
+
+app.get('/dashboard',
+  function(req, res) {
+    if(req.user) {
+      res.render('dashboard', { user: req.user, lists: ['a', 'b', 'c'] });
+    }
+    else {
+      res.redirect('/');
+    }
+  }
+);
+
+app.use(function(req, res) {
+  res.status(404).send('Sorry, can\'t find that  (404)');
+});
 
 app.listen(port, function() {
 	console.log('app listening on port', port);

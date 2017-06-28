@@ -9,7 +9,7 @@ var user = require('../lib/user.js')
 
 //sessions
 passport.serializeUser(function(user, cb) {
-  return cb(null, (user));
+  return cb(null, user);
 });
 
 passport.deserializeUser(function(user, done) {
@@ -66,6 +66,12 @@ router.get('/google/callback',
     // Successful authentication, redirect home.
     	res.redirect('/');
 });
+
+router.get('/logout',
+  function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
 
 module.exports = router;
