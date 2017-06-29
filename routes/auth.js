@@ -4,8 +4,8 @@ var router = express.Router();
 var passport = require('passport');
 var facebookStrategy = require('passport-facebook').Strategy;
 var googleStrategy = require('passport-google-oauth20').Strategy;
-
-var user = require('../lib/user.js')
+ 
+var user = require('../lib/user.js');
 
 //sessions
 passport.serializeUser(function(user, cb) {
@@ -18,19 +18,16 @@ passport.deserializeUser(function(user, done) {
 
 //facebook login
 passport.use(new facebookStrategy({
-    clientID: process.env.FACEBOOK_LOCAL_ID,
-    clientSecret: process.env.FACEBOOK_LOCAL_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback",
-    profileFields: ['id', 'displayName', 'photos', 'email']
-  },
-  function(accessToken, refreshToken, profile, cb) {
-  	console.log('facebook');
-    console.log(profile);
-   user.login('facebook', profile, function(err, userId) {
-        return cb(err, {id: userId, name: profile.displayName});
-    });
-  }
-));
+  clientID: process.env.FACEBOOK_LOCAL_ID,
+  clientSecret: process.env.FACEBOOK_LOCAL_SECRET,
+  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  profileFields: ['id', 'displayName', 'photos', 'email']
+},
+function(accessToken, refreshToken, profile, cb) {
+  user.login('facebook', profile, function(err, userId) {
+    return cb(err, {id: userId, name: profile.displayName});
+  });
+}));
 
 router.get('/facebook',
   passport.authenticate('facebook', {scope: ['email']}));
@@ -40,38 +37,38 @@ router.get('/facebook/callback',
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
-});
+  }
+);
 
 //google login
 passport.use(new googleStrategy({
-    clientID: process.env.GOOGLE_LOCAL_ID,
-    clientSecret: process.env.GOOGLE_LOCAL_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/callback"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    console.log(profile);
-    console.log(profile.emails);
-    user.login('google', profile, function(err, userId) {
-        return cb(err, {id: userId, name: profile.displayName});
-    });
-  }
-));
+  clientID: process.env.GOOGLE_LOCAL_ID,
+  clientSecret: process.env.GOOGLE_LOCAL_SECRET,
+  callbackURL: 'http://localhost:3000/auth/google/callback'
+},
+function(accessToken, refreshToken, profile, cb) {
+  user.login('google', profile, function(err, userId) {
+    return cb(err, {id: userId, name: profile.displayName});
+  });
+}));
 
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
-  	passport.authenticate('google', { failureRedirect: '/' }),
-  		function(req, res) {
-    // Successful authentication, redirect home.
-    	res.redirect('/');
-});
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+  // Successful authentication, redirect home.
+    res.redirect('/');
+  }
+);
 
 router.get('/logout',
   function(req, res) {
     req.logout();
     res.redirect('/');
-  });
+  }
+);
 
 
 module.exports = router;

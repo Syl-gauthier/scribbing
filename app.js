@@ -24,7 +24,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: {maxAge: 1800000}
-}))
+}));
 
 app.use(passport.initialize());
 
@@ -32,15 +32,14 @@ app.use(passport.session());
 
 app.use('/auth', authRouter);
 
-app.get('/', function(req, res, next) {
-  var sess = req.session
+app.get('/', function(req, res) {
   if (req.user) {
     res.redirect('/dashboard');
   }
   else {
     res.render('index');
   }
-})
+});
 
 app.get('/dashboard',
   function(req, res) {
@@ -58,5 +57,5 @@ app.use(function(req, res) {
 });
 
 app.listen(port, function() {
-	console.log('app listening on port', port);
+  console.log('app listening on port', port);
 });
