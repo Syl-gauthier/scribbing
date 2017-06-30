@@ -1,13 +1,15 @@
-//- template.pug
-p Connected as #{user.name} 
-	a(href='/auth/logout') logout
+extends layout.pug
 
-h2 My lists
-- lists.forEach(function(item) {
-li
-	a(href='/list/'+item) #{item}	
-- });
+block content
+	p Connected as #{user.name} 
+		a(href='/auth/logout') logout
+
+	h2 My lists
+	- lists.forEach(function(item) {
+	li
+		a(href='/list/'+item) #{item}	
+	- });
 
 
 
-h2 Recent words
+	h2 Recent words

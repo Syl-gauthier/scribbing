@@ -52,6 +52,16 @@ app.get('/dashboard',
   }
 );
 
+app.get('/list',
+  function(req, res) {
+    if(req.user) {
+      res.render('list', {list: {name: 'liste',languages: ['english', 'francais'], words:[{english: 'test', francais:'teste'}, {english: 'autre', francais: 'oui'}]}});
+    }
+    else {
+      res.redirect('/');
+    }
+  });
+
 app.use(function(req, res) {
   res.status(404).send('Sorry, can\'t find that  (404)');
 });

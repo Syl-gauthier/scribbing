@@ -12,7 +12,7 @@
     "postbuild": "watchify src/react/reactApp.jsx -t babelify -o public/js/bundle.js -v --debug & node-sass -w public/style/style.scss public/style/style.css",
     "start": "nodemon app.js",
     "start:dev": "nodemon app.js & npm run postbuild",
-    "test": "mocha public/**/*.test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

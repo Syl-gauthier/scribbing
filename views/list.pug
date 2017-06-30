@@ -1,0 +1,20 @@
+extends layout.pug
+
+
+
+block content
+
+	h2 #{list.name}
+
+	table
+		tr
+			- list.languages.forEach(function(langage) {
+			th #{langage}
+			- });
+		- list.words.forEach(function(word) {
+		tr
+			-	list.languages.forEach(function(language) {
+			td #{word[language]}
+			-	});
+			-});
+			
