@@ -1,14 +1,15 @@
 extends layout.pug
 
 block content
-	p Connected as #{user.name} 
-		a(href='/auth/logout') logout
 
 	h2 My lists
-	- lists.forEach(function(item) {
+	-if(listsIds) {
+	-listsIds.forEach(function(list) {
 	li
-		a(href='/list/'+item) #{item}	
+		a(href='/list/'+list._id) #{list.name}	
 	- });
+	- }
+	
 
 
 

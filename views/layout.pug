@@ -1,16 +1,24 @@
 doctype html
 html
-	head
-		meta("charset"="utf-8")
-		block head
+  head
+    meta("charset"="utf-8")
+    link(rel='stylesheet' type='text/css' href='/public/style/style.css')
+    block head
 
-	body
-		header
-			block header
-				h1 Scribbing
-		block content
-		
-		footer
-			block footer
-		
-		block footScript
+  body
+    block header
+      header.navbar
+        h1 Scribbing
+        h2 My lists
+        h2 My recent words
+        p You are logged in as #[b #{displayName}]
+        button(onclick="location.href = '/auth/logout'") Logout
+        button settings
+    
+    div.mainWrapper
+      block content
+    
+    footer
+      block footer
+    
+    block footScript

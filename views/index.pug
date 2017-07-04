@@ -1,6 +1,14 @@
 extends layout.pug
+block header
+  header.indexHeader
+    h1 Scribbing
+
 block content
-  a(href='/auth/facebook') facebook
-  br 
-  a(href='/auth/google') google
-  
+  section.demi
+    article
+      button.fbBtn(onclick="location.href = '/auth/facebook'") Login with Facebook
+      br
+      button.gBtn(onclick="location.href = '/auth/google'") Login with Google
+
+    article
+      p Here will be a nice introduction text, but not today...

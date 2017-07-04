@@ -1,0 +1,115 @@
+
+$sombre: #405952;
+$clair: #9C9B7A;
+$pale: #FFD393;
+$tendre: #FF974F;
+$vif: #F54F29;
+$white: #FFFFFF;
+$black: #000000;
+
+$facebookBlue: #3B5998;
+$googleRed:#F90101;
+
+@import 'socialButton';
+@import 'table';
+
+body{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	margin: 0;
+	background-color: $clair;
+	font-family: 'Times New Roman';
+}
+
+.mainWrapper {
+	flex: 1;
+	background-color: $white;
+	width: 80%;
+	margin: auto;
+	padding: 30px;
+	border-left: 2px solid $vif;
+	border-right: 2px solid $vif;
+}
+
+.demi {
+	> article {
+		margin-right: 20px;
+	}
+	display: flex;
+}
+
+.navbar{
+	$height: 70px;
+	$h1Height: 60px;
+	$h2Height: 30px;
+	$pHeight: 20px;
+
+	min-height: $height;
+	background-color: $tendre;
+	color: $sombre;
+	border-bottom: 3px solid $vif;
+
+	display:flex;
+
+	h1, h2, p, button {
+		margin: 0;
+		padding: 0 10px;
+		line-height: 100%;
+		border-right: 3px solid $vif;
+	}
+
+	h1, h2, button {
+		&:hover {
+			background-color: $pale;
+			color: $clair;
+		}
+	}
+
+	h1{
+		font-size: $h1Height;
+		padding: 0px 40px 0px 10px;
+		padding-top: ($height - $h1Height) / 2;
+		font-family: 'choco';
+	}
+
+	h2{
+		font-size: $h2Height;
+		padding-top: ($height - $h2Height) / 2;
+	}
+
+	p{	
+		flex: 1;
+		font-size: $pHeight;
+		padding-top: ($height - $pHeight) / 2;
+		text-align: center;
+	}
+
+	button {
+		background-color: transparent;
+		padding: 0 30px;
+		font-size: $pHeight;
+		border: none;
+		border-right: 3px solid $vif;
+		font-family: 'Times New Roman';
+		color: $sombre;
+	}
+}
+
+.indexHeader {
+	background-color: $tendre;
+	border-bottom: 3px solid $vif;
+
+	h1{
+		margin: 0px;
+		color: $sombre;
+		text-align: center;
+		font-family: 'choco';
+		font-size: 150px;
+	}
+}
+
+@font-face {
+	font-family: 'choco';
+	src: url('/public/font/chocolate-covered-raindrops.ttf');
+}

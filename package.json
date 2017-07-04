@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "npm run build:css && npm run build:js",
-    "build:css": "node-sass public/style/style.scss public/style/style.css",
+    "build:css": "node-sass --watch=src/styles src/styles/scribbing.scss public/style/style.css",
     "build:js": "browserify src/react/reactApp.jsx -t babelify -o public/js/bundle.js --debug",
     "build": "npm run build:css && npm run build:js",
     "prebuild": "rimraf public/js/bundle.js public/style/style.css",

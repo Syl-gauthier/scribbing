@@ -1,0 +1,34 @@
+//socialButton.scss
+
+.fbBtn, .gBtn {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  display: block;
+  margin: auto;
+  min-width: 350px;
+  border-radius: 8px;
+  color: $white;
+  font-size: 25px;
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+.fbBtn {
+  border: solid $facebookBlue 3px;
+  background-color: $facebookBlue;
+}
+
+.fbBtn:hover {
+  color: $facebookBlue;
+  background-color: $white;
+}
+
+.gBtn {
+  border: solid $googleRed 3px;
+  background-color: $googleRed;
+}
+
+.gBtn:hover {
+  color: $googleRed;
+  background-color: $white;
+}
