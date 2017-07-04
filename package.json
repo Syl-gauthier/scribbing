@@ -4,14 +4,10 @@
   "description": "Language learning focused on user helping eachover",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run build:css && npm run build:js",
-    "build:css": "node-sass --watch=src/styles src/styles/scribbing.scss public/style/style.css",
-    "build:js": "browserify src/react/reactApp.jsx -t babelify -o public/js/bundle.js --debug",
-    "build": "npm run build:css && npm run build:js",
-    "prebuild": "rimraf public/js/bundle.js public/style/style.css",
-    "postbuild": "watchify src/react/reactApp.jsx -t babelify -o public/js/bundle.js -v --debug & node-sass -w public/style/style.scss public/style/style.css",
-    "start": "nodemon app.js",
-    "start:dev": "nodemon app.js & npm run postbuild",
+    "postinstall": "npm run build",
+    "build": "gulp build",
+    "start": "node app.js",
+    "start:dev": "gulp",
     "test": "mocha"
   },
   "repository": {
@@ -57,10 +53,13 @@
     "dotenv": "^4.0.0",
     "eslint": "^4.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
     "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
     "nodemon": "^1.11.0",
     "rimraf": "^2.6.1",
+    "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.9.0"
   },
   "babel": {
