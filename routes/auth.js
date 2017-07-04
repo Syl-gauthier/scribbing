@@ -1,3 +1,4 @@
+'use strict';
 var express = require('express');
 var router = express.Router();
 
@@ -33,7 +34,7 @@ router.get('/facebook',
   passport.authenticate('facebook', {scope: ['email']}));
 
 router.get('/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  passport.authenticate('facebook', { failureRedirect: '/?failLog=true' }),
   function(req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');
@@ -56,7 +57,7 @@ router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/google/callback',
-  passport.authenticate('google', { failureRedirect: '/' }),
+  passport.authenticate('google', { failureRedirect: '/?failLog=true' }),
   function(req, res) {
   // Successful authentication, redirect home.
     res.redirect('/');
