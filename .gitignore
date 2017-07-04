@@ -1,6 +1,6 @@
 #custom
 test.js
-public/style/*.css
+public/style/
 
 # Logs
 logs
