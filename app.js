@@ -10,6 +10,10 @@ var morgan = require('morgan');
 const app = express();
 var port = process.env.PORT || 3000;
 
+//routers
+var authRouter = require('./routes/auth.js');
+var listsRouter = require('./routes/lists.js');
+
 app.use(morgan('tiny'));
 
 app.use('/public', express.static('public'));
@@ -17,23 +21,20 @@ app.use('/public', express.static('public'));
 
 app.set('view engine', 'pug');
 
-//routers
-var authRouter = require('./routes/auth.js');
-var listsRouter = require('./routes/lists.js');
+
 
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('cookie-parser')());
-//app.use(require('cookie-parser')());
 
 app.use(session({
-  secret: 'keyboard cat',
+  secret: 'just another secret',
   resave: true,
   saveUninitialized: true,
   cookie: {maxAge: 1800000}
 }));
 
+//passport init
 app.use(passport.initialize());
-
 app.use(passport.session());
 
 app.use('/auth', authRouter);
@@ -51,7 +52,7 @@ app.get('/', function(req, res) {
 app.get('/dashboard',
   function(req, res) {
     if(req.user) {
-      res.render('dashboard', req.user.id);
+      res.render('dashboard', {user: req.user.id});
     }
     else {
       res.redirect('/');
