@@ -2,14 +2,27 @@
 var mongo = require('mongodb');
 require('dotenv').config();
 
+var db;
 before('setting database', function(done) {
-  this.timeout(10000);
+  db = new Promise(function(resolve, reject) {
+    mongo.MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(db);
+      }
+    });
+  });
+  db.catch(function(err) {
+    done(err);
+  });
   resetData(function() {
     setData(done);
   });
 });
 
-after ('resetting database', function(done) {
+after('resetting database', function(done) {
   resetData(done);
 });
 
@@ -98,35 +111,29 @@ function setData(done) {
   }];
 
 
-  mongo.MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
-    if (err) {done(err);}
-    else {
-      db.collection('users').insertMany(testUsers, function(err) {
+  db.then(function(db) {
+    db.collection('users').insertMany(testUsers, function(err) {
+      if (err) done(err);
+      db.collection('lists').insertMany(testLists, function(err) {
         if (err) done(err);
-        db.collection('lists').insertMany(testLists, function(err) {
-          if (err) done(err);
-          db.collection('words').insertMany(testWords, function(err) {
-            done(err);
-          });
+        db.collection('words').insertMany(testWords, function(err) {
+          done(err);
         });
       });
-    }
+    });
   });
 }
 
 function resetData(done) {
-  mongo.MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
-    if (err) {done(err);}
-    else {
-      db.collection('users').deleteMany({test: true}, function(err) {
+  db.then(function(db) {
+    db.collection('users').deleteMany({test: true}, function(err) {
+      if (err) done(err);
+      db.collection('lists').deleteMany({test: true}, function(err) {
         if (err) done(err);
-        db.collection('lists').deleteMany({test: true}, function(err) {
-          if (err) done(err);
-          db.collection('words').deleteMany({test: true}, function(err) {
-            done(err);
-          });
+        db.collection('words').deleteMany({test: true}, function(err) {
+          done(err);
         });
       });
-    }
+    });
   });
 }
