@@ -8,9 +8,10 @@ var source = require('vinyl-source-stream');
 var rimraf = require('rimraf');
 var nodemon = require('nodemon');
 
+var reactApps = ['reactApp', 'listEditApp'];
 
 gulp.task('default', ['server']);
-gulp.task('build', ['sass', 'jsx']);
+gulp.task('build', ['sass'].concat(reactApps));
 
 gulp.task('clean', function(done) {
   rimraf('public/@(style|js)/**', function(err) {
@@ -27,19 +28,27 @@ var buildSASS = function () {
 gulp.task('sass', ['clean'], buildSASS);
 gulp.task('sass-watch', buildSASS);
 
-var buildJSX = function(done) {
-  watchify(browserify({entries: 'src/react/reactApp.jsx', debug: true}))
-    .transform('babelify', {presets: ['es2015', 'react']})
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest('./public/js'))
-    .on('end', function() {done(null);})
-    .on('error', console.error.bind(console));
-};
+function reactBuild(fileName) {
+  var build = function (done) {
+    watchify(browserify({entries: 'src/react/' + fileName + '.jsx', debug: true}))
+      .transform('babelify', {presets: ['es2015', 'react']})
+      .bundle()
+      .on('error', function(err){
+        console.log(err.stack);
+        done();
+      })
+      .pipe(source(fileName + '.js'))
+      .pipe(gulp.dest('./public/js'))
+      .on('end', function() {done(null);});
+  };
 
-gulp.task('jsx', ['clean'], buildJSX);
-gulp.task('jsx-watch', buildJSX);
+  gulp.task(fileName, ['clean'], build);
+  gulp.task(fileName + '-watch', build);
+}
 
+reactApps.forEach(function(fileName) {
+  reactBuild(fileName);
+});
 
 gulp.task('server', ['watch'], function() {
   gulp.task('server', function() {
@@ -58,9 +67,11 @@ gulp.task('server', ['watch'], function() {
   });
 });
 
-gulp.task('watch', ['sass', 'jsx'], function () {
+gulp.task('watch', ['sass'].concat(reactApps), function () {
   gulp.watch('./src/styles/*.scss', ['sass-watch']);
-  gulp.watch('./src/react/**', ['jsx-watch']);
+  reactApps.forEach(function(fileName) {
+    gulp.watch('./src/react/' + fileName + '.jsx', [fileName + '-watch']);
+  });
 });
 
 
