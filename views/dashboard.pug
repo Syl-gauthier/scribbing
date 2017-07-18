@@ -3,8 +3,8 @@ extends layout.pug
 block content
 
 	h2 My lists
-	-if(listsIds) {
-	-listsIds.forEach(function(list) {
+	-if(user.listsIds) {
+	-user.listsIds.forEach(function(list) {
 	li
 		a(href='/list/'+list._id) #{list.name}	
 	- });

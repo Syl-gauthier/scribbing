@@ -5,7 +5,7 @@ extends layout.pug
 block content
 
 	h2 #{list.name}
-
+	button(onClick="location.href = '/list/update/"+ list._id +"'") modifie
 	table
 		tr
 			- list.languages.forEach(function(langage) {
