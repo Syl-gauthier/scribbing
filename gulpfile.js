@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 var rimraf = require('rimraf');
 var nodemon = require('nodemon');
 
-var reactApps = ['reactApp', 'listEditApp'];
+var reactApps = ['reactApp', 'listEditApp', 'listTrainingApp'];
 
 gulp.task('default', ['server']);
 gulp.task('build', ['sass'].concat(reactApps));
