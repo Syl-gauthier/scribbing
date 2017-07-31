@@ -114,6 +114,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
     });
     state.words.forEach(function(word) {
       delete word.focus;
+      delete word.id;
     });
     request.post({url:'http:\/\/localhost:3000/list/update', form: state}, function(err, res, body) {
       console.log(body);
@@ -141,6 +142,14 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
         window.location.reload(true)
         });
         nextState.freeze = true;
+        break;
+      case 'DELETE':
+        var response = confirm('Are you sure you want to delete this list ?');
+        if(response) {
+          console.log('deletion');
+          window.location.replace('/list/del/' + listId);
+        }
+        break;
     }
 
     return nextState;
@@ -199,6 +208,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
           <button onClick={() => {store.dispatch({ type: 'ADD_NEW_WORD' })}} > add a word </button>
           <button onClick={() => {store.dispatch({ type: 'SAVE' })}}>save</button>
           <button onClick={() => {store.dispatch({ type: 'RESET' })}}>reset changes</button>
+          <button onClick={() => {store.dispatch({ type: 'DELETE' })}}>delete list</button>
         </div>
       );
     }
