@@ -37,9 +37,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/auth', authRouter);
-app.use('/list', listsRouter);
-
 app.get('/', function(req, res) {
   if (req.user) {
     res.redirect('/dashboard');
@@ -49,14 +46,23 @@ app.get('/', function(req, res) {
   }
 });
 
+app.use('/auth', authRouter);
+
+
+app.use(function(req, res, next) {
+  if(req.user) {
+    next();
+  }
+  else {
+    res.redirect('/');
+  }
+});
+
+app.use('/list', listsRouter);
+
 app.get('/dashboard',
   function(req, res) {
-    if(req.user) {
-      res.render('dashboard', {user: req.user.id});
-    }
-    else {
-      res.redirect('/');
-    }
+    res.render('dashboard', {user: req.user.id});
   }
 );
 
