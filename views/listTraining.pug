@@ -1,0 +1,8 @@
+extends layout.pug
+
+block content
+	div
+		div(id='reactRoot')
+		script.
+			var listId = '#{listId}';
+		script(src='/public/js/listTrainingApp.js')

@@ -6,15 +6,18 @@ block content
 
 	h2 #{list.name}
 	button(onClick="location.href = '/list/update/"+ list._id +"'") modifie
+	button(onClick="location.href = '/list/training/"+ list._id +"'") training
 	table
 		tr
 			- list.languages.forEach(function(langage) {
 			th #{langage}
 			- });
+		- if (list.words) {
 		- list.words.forEach(function(word) {
 		tr
 			-	list.languages.forEach(function(language) {
 			td #{word[language]}
 			-	});
 			-});
+		- }
 			
