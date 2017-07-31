@@ -3,6 +3,7 @@ extends layout.pug
 block content
 
 	h2 My lists
+	a(href='/list/new') new list
 	-if(user.listsIds) {
 	-user.listsIds.forEach(function(list) {
 	li
