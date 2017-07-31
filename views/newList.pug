@@ -1,0 +1,15 @@
+
+extends layout.pug
+block content
+	h2 New list creation:
+	form(action='/list/new/submit' method='post')
+		label name : 
+			input(type='text' name='name')
+		br
+		label language 1 : 
+			input(type='text' name='language1')
+		br
+		label language 1 : 
+			input(type='text' name='language2')
+		br
+		input(type='submit')
