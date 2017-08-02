@@ -66,9 +66,9 @@ app.get('/dashboard',
   }
 );
 
-/*app.use(function(req, res) {
-  res.status(404).send('Sorry, can\'t find that  (404)');
-});*/
+app.use(function(req, res) {
+  res.status(404).render('404', {user: req.user.id});
+});
 
 app.listen(port, function() {
   console.log('app listening on port', port);
