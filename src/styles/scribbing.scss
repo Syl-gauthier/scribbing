@@ -27,9 +27,70 @@ body{
 	background-color: $white;
 	width: 80%;
 	margin: auto;
-	padding: 30px;
+	padding: 80px;
 	border-left: 2px solid $vif;
 	border-right: 2px solid $vif;
+
+	a {
+		text-decoration: none;
+	}
+
+	article {
+		margin-bottom: 50px;
+	}
+
+	h1 {
+		margin: 0;
+		text-align: center;
+		color: $sombre;
+		font-size: 60px;
+	}
+
+	h2 {
+		color: $sombre;
+		font-size: 40px;
+	}
+
+	ul {
+		font-size: 18px;
+	}
+
+	.command {
+		text-align: center;
+		margin: 50px 0;
+	}
+
+	input[type='text'] {
+		margin: 2px;
+		font-size: 15px;
+		border: 1px solid $vif;
+		border-radius: 3px;
+		padding: 12px 20px;
+
+		&.listName {
+			font-size: 30px;
+		}
+	}
+
+	button.classic, input[type='submit'] {
+		-webkit-border-radius: 8;
+		-moz-border-radius: 8;
+		display: inline-block;
+		margin: 10px;
+		min-width: 200px;
+		border-radius: 8px;
+		color: $white;
+		font-size: 20px;
+		padding: 15px 30px;
+		text-decoration: none;
+  		border: solid $vif 3px;
+  		background-color: $vif;
+
+  		&:hover {
+  			color: $vif;
+  			background-color: $white;
+  		}
+	}
 }
 
 .demi {
@@ -93,6 +154,11 @@ body{
 		border-right: 3px solid $vif;
 		font-family: 'Times New Roman';
 		color: $sombre;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
 	}
 }
 

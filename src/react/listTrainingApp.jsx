@@ -394,40 +394,40 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
       case 0:
         buttons = (
           <div>
-            <button onClick={() => {store.dispatch({ type: 'START_TRAINING' })}} > start </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'START_TRAINING' })}} > start </button>
           </div>
         );
         break;
       case 1:
         buttons = (
           <div>
-            <button onClick={() => {store.dispatch({ type: 'NEXT_LEARNING', currWord: this.props.currWord })}} > next </button>
-            <button onClick={() => {store.dispatch({ type: 'KNEW_LEARNING', currWord: this.props.currWord })}} > I already knew this word </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'NEXT_LEARNING', currWord: this.props.currWord })}} > next </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'KNEW_LEARNING', currWord: this.props.currWord })}} > I already knew this word </button>
           </div>
         );
         break;
       case 2:
         buttons = (
           <div>
-            <button onClick={() => {store.dispatch({ type: 'SHOW_ANSWER' })}} > Show answer </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'SHOW_ANSWER' })}} > Show answer </button>
           </div>
         );
         break;
       case 3:
         buttons = (
           <div>
-            <button onClick={() => {store.dispatch({ type: 'FAIL_TRAINING', currWord: this.props.currWord })}} > I didn't knew </button>
-            <button onClick={() => {store.dispatch({ type: 'RETRY_TRAINING', currWord: this.props.currWord })}} > I wasn't sure </button>
-            <button onClick={() => {store.dispatch({ type: 'SUCCESS_TRAINING', currWord: this.props.currWord })}} > I know this word </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'FAIL_TRAINING', currWord: this.props.currWord })}} > I didn't knew </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'RETRY_TRAINING', currWord: this.props.currWord })}} > I wasn't sure </button>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'SUCCESS_TRAINING', currWord: this.props.currWord })}} > I know this word </button>
           </div>
         );
         break;
       case 4:
       case 5:
         buttons = (
-          <div>
-            <button onClick={() => {store.dispatch({ type: 'END_TRAINING' })}} > Save and return to dashboard </button>
-          </div>
+          <section className='command'>
+            <button className='classic' onClick={() => {store.dispatch({ type: 'END_TRAINING' })}} > Save and return to dashboard </button>
+          </section>
         );
         break;
       }

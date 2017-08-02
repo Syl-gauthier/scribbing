@@ -1,17 +1,20 @@
 extends layout.pug
 
 block content
-
-	h2 My lists
-	a(href='/list/new') new list
-	-if(user.listsIds) {
-	-user.listsIds.forEach(function(list) {
-	li
-		a(href='/list/'+list._id) #{list.name}	
-	- });
-	- }
+	h1 Dashboard
+	article
+		h2 My lists
+		ul 
+			li: b: a(href='/list/new') new list
+			-if(user.listsIds) {
+			-user.listsIds.forEach(function(list) {
+			li
+				a(href='/list/'+list._id) #{list.name}	
+			- });
+			- }
 	
 
 
-
-	h2 Recent words
+	article
+		h2 Recent words
+		p nothing here yet...

@@ -4,10 +4,11 @@ extends layout.pug
 
 block content
 
-	h2 #{list.name}
-	button(onClick="location.href = '/list/update/"+ list._id +"'") modifie
-	button(onClick="location.href = '/list/training/"+ list._id +"'") training
-	table
+	h1 #{list.name}
+	section.command
+		button.classic(onClick="location.href = '/list/update/"+ list._id +"'") modifie
+		button.classic(onClick="location.href = '/list/training/"+ list._id +"'") training
+	table.wordTable
 		tr
 			- list.languages.forEach(function(langage) {
 			th #{langage}

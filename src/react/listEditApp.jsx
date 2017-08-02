@@ -188,7 +188,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
       return (
         <div>
-          <h2><input type='text' value={this.props.meta.name} onChange={(event) => {store.dispatch({type:'UPDATE_NAME', name:event.target.value})}} /></h2>
+          <h2> Name : <input type='text' className='listName' value={this.props.meta.name} onChange={(event) => {store.dispatch({type:'UPDATE_NAME', name:event.target.value})}} /></h2>
           <Command />
           {freezeText}
           <List words={this.props.words} languages={this.props.languages}/>
@@ -204,12 +204,12 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
     render() {
       return (
-        <div>
-          <button onClick={() => {store.dispatch({ type: 'ADD_NEW_WORD' })}} > add a word </button>
-          <button onClick={() => {store.dispatch({ type: 'SAVE' })}}>save</button>
-          <button onClick={() => {store.dispatch({ type: 'RESET' })}}>reset changes</button>
-          <button onClick={() => {store.dispatch({ type: 'DELETE' })}}>delete list</button>
-        </div>
+        <section className='command'>
+          <button className='classic' onClick={() => {store.dispatch({ type: 'ADD_NEW_WORD' })}} > add a word </button>
+          <button className='classic' onClick={() => {store.dispatch({ type: 'SAVE' })}}>save</button>
+          <button className='classic' onClick={() => {store.dispatch({ type: 'RESET' })}}>reset changes</button>
+          <button className='classic' onClick={() => {store.dispatch({ type: 'DELETE' })}}>delete list</button>
+        </section>
       );
     }
   }
@@ -256,7 +256,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
       }.bind(this));
 
       return (
-        <table>
+        <table className='wordTable'>
           <tbody>
             {headRow}
             {wordArray}

@@ -3,13 +3,15 @@ extends layout.pug
 block content
 	h2 New list creation:
 	form(action='/list/new/submit' method='post')
-		label name : 
-			input(type='text' name='name')
-		br
-		label language 1 : 
-			input(type='text' name='language1')
-		br
-		label language 1 : 
-			input(type='text' name='language2')
-		br
-		input(type='submit')
+		table: tbody
+			tr
+				td: label(for='') Name : 
+				td: input(type='text' name='name' id='name' placeholder='choose a name for this list' required)
+			tr
+				td: label(for='language1') Language 1 : 
+				td: input(type='text' name='language1' id='language1' placeholder='e.g. : \'english\'' required)
+			tr
+				td: label(for='language2') Language 2 : 
+				td: input(type='text' name='language2' id='language2' placeholder='e.g. : \'french\'' required)
+		section.command
+			input(type='submit' value='Create the list')

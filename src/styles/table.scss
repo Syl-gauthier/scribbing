@@ -1,28 +1,30 @@
 table {
-	border-collapse: collapse;
+
 	margin:auto;
-	
+	border-collapse: collapse;
 
-	tr{
-		background-color: $pale;
-
-		th, td {
-		min-width: 150px;
-		border: 2px solid $vif;
-		padding: 3px;
-		}
-
-		th {
-			background-color: $vif;
-		}
-
-		&:nth-child(even) {
-			background-color: $tendre;
-		}
+	&.wordTable {
 		
-		&:hover {
-			background-color: red;
+		tr{
+			background-color: $pale;
+
+			th, td {
+			min-width: 220px;
+			border: 2px solid $vif;
+			padding: 12px 20px;
+			}
+
+			th {
+				background-color: $vif;
+			}
+
+			&:nth-child(even) {
+				background-color: $tendre;
+			}
+			
+			&:hover {
+				background-color: red;
+			}
 		}
 	}
-	
 }
