@@ -6,8 +6,7 @@ import {combineReducers} from 'redux';
 import request from 'request';
 
 console.log('listId', listId)
-
-request('/list/get/'+listId, function(err, res, body) {
+request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   let idIncr = 0; // for words unique keys
 
   var body = JSON.parse(body);
@@ -46,8 +45,6 @@ request('/list/get/'+listId, function(err, res, body) {
   var trainingStart = new Date();
 
   data.training = data.words.reduce(function(acc, word) {
-    console.log(word.training.reverseOrder.dueDate);
-    console.log(new Date(word.training.reverseOrder.dueDate) > trainingStart);
     if (!(new Date(word.training.directOrder.dueDate) > trainingStart)) { //if dueDate == undefined, dueDate > trainingStart and dueDate < trainingStart are both false. So testing if dueDate is't after trainingStart
       acc.allWords.push({id: word.id, order: 'directOrder'});
       if (!word.training.directOrder.count) {
@@ -237,9 +234,7 @@ request('/list/get/'+listId, function(err, res, body) {
 
     delete state.training;
 
-    console.log(state);
-    request.post({url:'/list/update', form: state}, function(err, res, body) {
-      console.log(body);
+    request.post({url: window.location.origin + '/list/update', form: state}, function(err, res, body) {
       cb(err, res, body);
     });
   }

@@ -7,10 +7,9 @@ import request from 'request';
 
 console.log('listId', listId)
 
-request('/list/get/'+listId, function(err, res, body) {
+request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   let idIncr = 0; // for words unique keys
 
-  console.log(body);
   var body = JSON.parse(body);
 
   var data = {};
@@ -50,7 +49,6 @@ request('/list/get/'+listId, function(err, res, body) {
           return Object.assign({}, word, {focus: true});
         }
         else {
-          if(word.focus) console.log(word);
           var newWord = Object.assign({}, word);
           delete newWord.focus;
           return newWord;
@@ -116,8 +114,7 @@ request('/list/get/'+listId, function(err, res, body) {
       delete word.focus;
       delete word.id;
     });
-    request.post({url:'/list/update', form: state}, function(err, res, body) {
-      console.log(body);
+    request.post({url: window.location.origin + '/list/update', form: state}, function(err, res, body) {
       cb(err, res, body);
     });
   }
@@ -146,7 +143,6 @@ request('/list/get/'+listId, function(err, res, body) {
       case 'DELETE':
         var response = confirm('Are you sure you want to delete this list ?');
         if(response) {
-          console.log('deletion');
           window.location.replace('/list/del/' + listId);
         }
         break;
