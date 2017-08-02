@@ -17,6 +17,8 @@ passport.deserializeUser(function(user, done) {
   return done(null, user);
 });
 
+console.log(process.env.FACEBOOK_LOCAL_ID, process.env.FACEBOOK_LOCAL_SECRET);
+
 //facebook login
 passport.use(new facebookStrategy({
   clientID: process.env.FACEBOOK_LOCAL_ID,
