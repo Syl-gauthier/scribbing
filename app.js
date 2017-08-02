@@ -16,7 +16,7 @@ var listsRouter = require('./routes/lists.js');
 
 app.use(morgan('tiny'));
 
-app.use('/public', express.static('public'));
+app.use('/public', express.static('public', {maxAge: 3600000}));
 
 
 app.set('view engine', 'pug');
