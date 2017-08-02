@@ -11,7 +11,9 @@ var nodemon = require('nodemon');
 var reactApps = ['reactApp', 'listEditApp', 'listTrainingApp'];
 
 gulp.task('default', ['server']);
-gulp.task('build', ['sass'].concat(reactApps));
+gulp.task('build', ['sass'].concat(reactApps), function() {
+  process.exit(1);
+});
 
 gulp.task('clean', function(done) {
   rimraf('public/@(style|js)/**', function(err) {
