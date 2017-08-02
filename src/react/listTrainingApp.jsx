@@ -46,7 +46,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
   var trainingStart = new Date();
 
   data.training = data.words.reduce(function(acc, word) {
-    console.log(new Date(word.training.reverseOrder.dueDate),trainingStart);
+    console.log(word.training.reverseOrder.dueDate);
     console.log(new Date(word.training.reverseOrder.dueDate) > trainingStart);
     if (!(new Date(word.training.directOrder.dueDate) > trainingStart)) { //if dueDate == undefined, dueDate > trainingStart and dueDate < trainingStart are both false. So testing if dueDate is't after trainingStart
       acc.allWords.push({id: word.id, order: 'directOrder'});
@@ -75,6 +75,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
     return new Date(dueDate);
   });
 
+  //if no words left for today
   if (data.training.allWords.length == 0) {
     data.training.step = 5;
   }
@@ -226,6 +227,12 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
     state.words.forEach(function(word) {
       delete word.focus;
       delete word.id;
+      if(!(word.training.directOrder.dueDate > trainingStart)) {
+        word.training.directOrder.dueDate = palierDates[0];
+      }
+      if(!(word.training.reverseOrder.dueDate > trainingStart)) {
+        word.training.reverseOrder.dueDate = palierDates[0];
+      } 
     });
 
     delete state.training;
