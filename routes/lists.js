@@ -4,10 +4,42 @@ var router = require('express').Router();
 var lists = require('../lib/lists.js');
 
 //TODO
-router.get('/', function(req, res) {
+/*router.get('/', function(req, res) {
   res.render('list', {list: {name: 'liste',languages: ['english', 'francais'], words:[{english: 'test', francais:'teste'}, {english: 'autre', francais: 'oui'}]}});
-});
+});*/
 
+router.post('/new/submit',
+  function(req, res) {
+    var data = {};
+    data.name = req.body.name;
+    var languages = [req.body.language1, req.body.language2];
+    data.languages = languages;
+    data.userId = req.user.id._id;
+    lists.insert(data, function(err, result) {
+      if (err) {
+        console.log(err);
+        res.redirect('/err');
+      }
+      else {
+        req.user.id.listsIds.push(result);
+        res.redirect('/list/update/' + result._id);
+      }
+    });
+  }
+);
+
+router.get('/new',
+  function(req,res) {
+    console.log('I\'ve been here');
+    res.render('newList', {user: req.user.id});
+  }
+);
+
+router.get('/training/:listId', 
+  function(req, res) {
+    res.render('listTraining', {listId: req.params.listId, user: req.user.id});
+  }
+);
 
 router.get('/get/:listId', function(req, res) {
   lists.read(req.params.listId, function(err, result) {
@@ -33,39 +65,6 @@ router.get('/:listId', function(req, res) {
     }
   });
 });
-
-router.post('/new/submit',
-  function(req, res) {
-    var data = {};
-    data.name = req.body.name;
-    var languages = [req.body.language1, req.body.language2];
-    data.languages = languages;
-    data.userId = req.user.id._id;
-    lists.insert(data, function(err, result) {
-      if (err) {
-        console.log(err);
-        res.redirect('/err');
-      }
-      else {
-        req.user.id.listsIds.push(result);
-        res.redirect('/list/update/' + result._id);
-      }
-    });
-  }
-);
-
-router.get('/new',
-  function(req,res) {
-    res.render('newList', {user: req.user.id});
-  }
-);
-
-router.get('/training/:listId', 
-  function(req, res) {
-    res.render('listTraining', {listId: req.params.listId, user: req.user.id});
-  }
-);
-
 
 //any request beyond this point is reserved to the list owner
 router.use(function(req, res, next) {
