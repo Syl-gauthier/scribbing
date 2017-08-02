@@ -30,10 +30,15 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
 
   //words reducer
-  const words = (state = [], action) => {
+  const words = (state = [], languages, action) => {
     switch(action.type) {
     case 'ADD_NEW_WORD':
-      return [...state, {french: '*', english: '*', id: idIncr++}];
+      let newWord = {};
+      languages.forEach(function(language) {
+        newWord[language] = '*';
+      });
+      newWord.id = idIncr++;
+      return [...state, newWord];
     case 'DELETE_WORD':
       return state.filter(function(word) {
         if (word.id === action.id) return false;
@@ -124,7 +129,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
     nextState.meta = meta(state.meta, action);
     nextState.languages = languages(state.languages, action);
-    nextState.words = words(state.words, action);
+    nextState.words = words(state.words, state.languages, action);
 
     switch(action.type) {
       case 'RESET':
