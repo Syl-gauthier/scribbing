@@ -21,7 +21,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new facebookStrategy({
   clientID: process.env.FACEBOOK_LOCAL_ID,
   clientSecret: process.env.FACEBOOK_LOCAL_SECRET,
-  callbackURL: 'http://localhost:3000/auth/facebook/callback',
+  callbackURL: '/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos', 'email']
 },
 function(accessToken, refreshToken, profile, cb) {
@@ -45,7 +45,7 @@ router.get('/facebook/callback',
 passport.use(new googleStrategy({
   clientID: process.env.GOOGLE_LOCAL_ID,
   clientSecret: process.env.GOOGLE_LOCAL_SECRET,
-  callbackURL: 'http://localhost:3000/auth/google/callback'
+  callbackURL: '/auth/google/callback'
 },
 function(accessToken, refreshToken, profile, cb) {
   user.login('google', profile, function(err, userId) {

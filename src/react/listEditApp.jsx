@@ -7,7 +7,7 @@ import request from 'request';
 
 console.log('listId', listId)
 
-request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
+request('/list/get/'+listId, function(err, res, body) {
   let idIncr = 0; // for words unique keys
 
   console.log(body);
@@ -116,7 +116,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
       delete word.focus;
       delete word.id;
     });
-    request.post({url:'http:\/\/localhost:3000/list/update', form: state}, function(err, res, body) {
+    request.post({url:'/list/update', form: state}, function(err, res, body) {
       console.log(body);
       cb(err, res, body);
     });
