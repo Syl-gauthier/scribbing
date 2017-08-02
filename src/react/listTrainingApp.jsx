@@ -10,7 +10,6 @@ console.log('listId', listId)
 request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
   let idIncr = 0; // for words unique keys
 
-  console.log(body);
   var body = JSON.parse(body);
 
   var data = {};
@@ -43,81 +42,60 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
   else {
     data.words = [];
   }
-  console.log(data);
 
-  var newWords = data.words.reduce(function(acc, word) {
-    if (!word.training.directOrder.count) {
-      acc.push({id: word.id, order: 'directOrder'});
+  var trainingStart = new Date();
+
+  data.training = data.words.reduce(function(acc, word) {
+    console.log(new Date(word.training.reverseOrder.dueDate),trainingStart);
+    console.log(new Date(word.training.reverseOrder.dueDate) > trainingStart);
+    if (!(new Date(word.training.directOrder.dueDate) > trainingStart)) { //if dueDate == undefined, dueDate > trainingStart and dueDate < trainingStart are both false. So testing if dueDate is't after trainingStart
+      acc.allWords.push({id: word.id, order: 'directOrder'});
+      if (!word.training.directOrder.count) {
+        acc.newWords.push({id: word.id, order: 'directOrder'});
+      }
     } 
-    else if (!word.training.reverseOrder.count) {
-      acc.push({id: word.id, order: 'reverseOrder'});  
+    else if (!(new Date(word.training.reverseOrder.dueDate) > trainingStart)) {
+      acc.allWords.push({id: word.id, order: 'reverseOrder'});
+      if (!word.training.reverseOrder.count) {
+        acc.newWords.push({id: word.id, order: 'reverseOrder'});
+      }
     }
     return acc;
-  }, []);
+  }, {
+    step: 0, 
+    newWords: [], 
+    allWords: [],
+  });
 
-  var now = new Date();
+  //for each palier, ther is a corresponding future dueDate
+  var palierEq = [1, 1, 2, 4, 8, 12, 20, 30, 60, 100, 200, 300];
+  var palierDates = palierEq.map(function(days) {
+    let trainingDate = new Date(trainingStart.setHours(0,0,0,0));
+    let dueDate = trainingDate.getTime() + (days * 24 * 60 * 60 * 1000);
+    return new Date(dueDate);
+  });
 
-  var allWords = data.words.reduce(function(acc, word) {
-    if (word.training.directOrder.dueDate < now) {
-      acc.push({id: word.id, order: 'directOrder'});
-    } else if (word.training.reverseOrder.dueDate < now) {
-      acc.push({id: word.id, order: 'reverseOrder'});
-    }
-    return acc;
-  }, [...newWords]);
-
-  console.log(newWords, allWords);
-  data.training = {step: 0, newWords, allWords};
-
+  if (data.training.allWords.length == 0) {
+    data.training.step = 5;
+  }
   //words reducer
   const words = (state = [], action) => {
     let stats;
 
     switch(action.type) {
-    case 'ADD_NEW_WORD':
-      return [...state, {french: '*', english: '*', id: idIncr++}];
-    case 'DELETE_WORD':
-      return state.filter(function(word) {
-        if (word.id === action.id) return false;
-        return true;
-      });
-    case 'FOCUS_WORD':
-      return state.map(function(word) {
-        if (word.id === action.id) {
-          return Object.assign({}, word, {focus: true});
-        }
-        else {
-          if(word.focus) console.log(word);
-          var newWord = Object.assign({}, word);
-          delete newWord.focus;
-          return newWord;
-        }
-      });
-    case 'UPDATE_WORD':
-      return state.map(function(word) {
-        if (word.id === action.id) {
-          //var language = action.language;
-          //word[action.language] = action.value;
-          return Object.assign({}, word, {[''+action.language]: action.value});
-        }
-        else {
-          return Object.assign({}, word);
-        }
-      });
-      return state;
     case 'KNEW_LEARNING':
     case 'SUCCESS_TRAINING':
       return state.map(function(word) {
         if (word.id === action.currWord.id) {
-          console.log(word.training);
           let training = Object.assign({}, word.training);
           training[action.currWord.order] = Object.assign({}, word.training[action.currWord.order], 
             {
-              count: ++word.training[action.currWord.order].count, 
-              success: ++word.training[action.currWord.order].success, 
-              palier: ++word.training[action.currWord.order].palier
+              count: word.training[action.currWord.order].count + 1, 
+              success: word.training[action.currWord.order].success + 1, 
+              palier: word.training[action.currWord.order].palier + 1
             }
           );
+          training[action.currWord.order].dueDate = palierDates[training[action.currWord.order].palier];
           return Object.assign({}, word, {training});
         }
         else {
@@ -182,6 +160,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
     switch(action.type) {
       case 'START_TRAINING':
+        if(state.newWords.length < 1) return Object.assign({}, state, {step: 2});
         return Object.assign({}, state, {step: 1});
       case 'NEXT_LEARNING':
         newWords = state.newWords.slice(1);
@@ -207,9 +186,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
         return Object.assign({}, state, {step: 2, allWords});
       case 'SUCCESS_TRAINING':
         allWords = state.allWords.slice(1);
-        console.log(allWords);
         if(allWords.length < 1) {
-          console.log('oui');
           return Object.assign({}, state, {step: 4, allWords}); }
         return Object.assign({}, state, {step: 2, allWords});
       case 'END_TRAINING':
@@ -232,6 +209,8 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
 
   function save(state, cb) {
     console.log('save');
+
+    //filter non-valid words
     state.words = state.words.filter(function(word, index) {
       var pass = true;
       Object.keys(word).forEach(function (key) {
@@ -242,11 +221,15 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
       });
       return pass;
     });
+
+    //clean words unnecessary property
     state.words.forEach(function(word) {
       delete word.focus;
       delete word.id;
     });
+
     delete state.training;
+
     console.log(state);
     request.post({url:'http:\/\/localhost:3000/list/update', form: state}, function(err, res, body) {
       console.log(body);
@@ -257,7 +240,6 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
   //var listEditApp = combineReducers({meta, languages, words});
 
   var listEditApp =  (state, action) => {
-    console.log(action);
     var nextState = {};
     if(state.freeze) return state;
 
@@ -280,12 +262,13 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
       case 'DELETE':
         var response = confirm('Are you sure you want to delete this list ?');
         if(response) {
-          console.log('deletion');
           window.location.replace('/list/del/' + listId);
         }
         break;
       case 'END_TRAINING':
-        console.log(state);
+        save(state, function() {
+          window.location = '/';
+        });
     }
 
     return nextState;
@@ -295,20 +278,6 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
   let store = createStore(listEditApp, data);
 
   //react elements
-
-  /*      list editor app
-    interface to update a given list
-    features:
-    -editing words
-    -adding/deleting words
-    -changing list's name
-    -adding/removing languages
-
-      possible improvement:
-      -manage the order of the word
-      -adding already existing words (from a research)
-      -manage the order of the languages
-  */
   class ListTraining extends React.Component {
     constructor(props) {
       super(props);
@@ -351,7 +320,7 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
               <h3>{this.props.languages[0]} : {currWord[this.props.languages[0]]}</h3>
               <h3>{this.props.languages[1]} : {currWord[this.props.languages[1]]}</h3>
             </div>
-          );          
+          );
           break;
         case 2:
           if (currWord.order === 'directOrder') {
@@ -388,14 +357,19 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
             <h3>You finished your training.</h3>
           );          
           break;
+        case 5:
+          contents = (
+            <h3>You have no more words to learn today.</h3>
+          );          
+          break;
       }
 
       return (
         <div>
           <h2>{this.props.meta.name}</h2>
           {freezeText}
-          <Command step={this.props.training.step} currWord={currWord}/>
           {contents}
+          <Command step={this.props.training.step} currWord={currWord}/>
         </div>
       );
     }
@@ -442,9 +416,10 @@ request('http:\/\/localhost:3000/list/get/'+listId, function(err, res, body) {
         );
         break;
       case 4:
+      case 5:
         buttons = (
           <div>
-            <button onClick={() => {store.dispatch({ type: 'END_TRAINING' })}} > Return to dashboard </button>
+            <button onClick={() => {store.dispatch({ type: 'END_TRAINING' })}} > Save and return to dashboard </button>
           </div>
         );
         break;
