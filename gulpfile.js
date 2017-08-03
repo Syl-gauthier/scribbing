@@ -5,13 +5,17 @@ var sass = require('gulp-sass');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var rimraf = require('rimraf');
 var nodemon = require('nodemon');
+var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
 
 var reactApps = ['reactApp', 'listEditApp', 'listTrainingApp'];
 
-gulp.task('default', ['server']);
-gulp.task('build', ['sass'].concat(reactApps), function() {
+gulp.task('default', ['server-prod']);
+
+gulp.task('build', ['sass'].concat(reactApps.map((app) => {return app + '-prod';})), function() {
   process.exit(0);
 });
 
@@ -30,42 +34,75 @@ var buildSASS = function () {
 gulp.task('sass', ['clean'], buildSASS);
 gulp.task('sass-watch', buildSASS);
 
+//      .pipe(uglify())
+
+
 function reactBuild(fileName) {
   var build = function (done) {
-    watchify(browserify({entries: 'src/react/' + fileName + '.jsx', debug: true}))
-      .transform('babelify', {presets: ['es2015', 'react']})
+    var b = browserify({entries: 'src/react/' + fileName + '.jsx', debug: true, transform: ['babelify']});
+
+    b
       .bundle()
+      .pipe(source(fileName + '.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(uglify())
       .on('error', function(err){
         console.log(err.stack);
         done();
       })
-      .pipe(source(fileName + '.js'))
+      .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest('./public/js'))
-      .on('end', function() {done(null);});
+      .on('end', function() {
+        done(null);
+      });
+
+    watchify(b);
+      
   };
 
-  gulp.task(fileName, ['clean'], build);
-  gulp.task(fileName + '-watch', build);
+  var buildDev = function (done) {
+    var b = browserify({entries: 'src/react/' + fileName + '.jsx', debug: true, transform: ['babelify']});
+
+    b
+      .bundle()
+      .pipe(source(fileName + '.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .on('error', function(err){
+        console.log(err.stack);
+        done();
+      })
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./public/js'))
+      .on('end', function() {
+        done(null);
+      });
+
+    watchify(b);
+      
+  };
+
+  gulp.task(fileName, ['clean'], buildDev);
+  gulp.task(fileName + '-watch', buildDev);
+  gulp.task(fileName + '-prod', build);
 }
 
 reactApps.forEach(function(fileName) {
   reactBuild(fileName);
 });
 
-gulp.task('server', ['watch'], function() {
-  gulp.task('server', function() {
-    // configure nodemon
-    nodemon({
-      // the script to run the app
-      script: 'app.js',
-      // this listens to changes in any of these files/routes and restarts the application
-      watch: ['app.js', 'routes/', 'lib/**'],
-      ext: 'js'
-      // Below i'm using es6 arrow functions but you can remove the arrow and have it a normal .on('restart', function() { // then place your stuff in here }
-    }).on('restart', () => {
-      console.log('Change detected... restarting server...');
-      gulp.src('server.js');
-    });
+gulp.task('server-prod', ['watch'], function() {
+  // configure nodemon
+  nodemon({
+    // the script to run the app
+    script: 'app.js',
+    // this listens to changes in any of these files/routes and restarts the application
+    watch: ['app.js', 'routes/', 'lib/**'],
+    ext: 'js'
+  }).on('restart', () => {
+    console.log('Change detected... restarting server...');
+    gulp.src('server.js');
   });
 });
 

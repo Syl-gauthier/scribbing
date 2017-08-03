@@ -21,8 +21,6 @@ app.use('/public', express.static('public', {maxAge: 3600000}));
 
 app.set('view engine', 'pug');
 
-
-
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('cookie-parser')());
 
