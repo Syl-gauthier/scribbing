@@ -8,17 +8,18 @@ block content
 	section.command
 		button.classic(onClick="location.href = '/list/update/"+ list._id +"'") modifie
 		button.classic(onClick="location.href = '/list/training/"+ list._id +"'") training
-	table.wordTable
-		tr
-			- list.languages.forEach(function(langage) {
-			th #{langage}
-			- });
-		- if (list.words) {
-		- list.words.forEach(function(word) {
-		tr
-			-	list.languages.forEach(function(language) {
-			td #{word[language]}
-			-	});
-			-});
-		- }
+	section
+		table.wordTable
+			tr
+				- list.languages.forEach(function(langage) {
+				th #{langage}
+				- });
+			- if (list.words) {
+			- list.words.forEach(function(word) {
+			tr
+				-	list.languages.forEach(function(language) {
+				td #{word[language]}
+				-	});
+				-});
+			- }
 			

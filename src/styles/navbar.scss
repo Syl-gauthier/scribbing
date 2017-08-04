@@ -1,0 +1,62 @@
+.navbar{
+	$height: 70px;
+	$h1Height: 60px;
+	$h2Height: 30px;
+	$pHeight: 20px;
+
+	min-height: $height;
+	background-color: $tendre;
+	color: $sombre;
+	border-bottom: 3px solid $vif;
+
+	display:flex;
+
+	h1, h2, p, button {
+		margin: 0;
+		padding: 0 10px;
+		line-height: 100%;
+		border-right: 3px solid $vif;
+	}
+
+	h1, h2, button {
+		&:hover {
+			background-color: $pale;
+			color: $clair;
+		}
+	}
+
+	h1{
+		font-size: $h1Height;
+		padding: 0 40px 0 10px;
+		padding-top: ($height - $h1Height) / 2;
+		font-family: 'choco';
+	}
+
+	h2{
+		font-size: $h2Height;
+		padding-top: ($height - $h2Height) / 2;
+	}
+
+	p{	
+		flex: 1;
+		font-size: $pHeight;
+		padding-top: ($height - $pHeight) / 2;
+		text-align: center;
+	}
+
+	button {
+		background-color: transparent;
+		padding: 0 30px;
+		font-size: $pHeight;
+		border: none;
+		border-right: 3px solid $vif;
+		font-family: 'Times New Roman';
+		color: $sombre;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
+

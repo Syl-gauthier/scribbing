@@ -1,9 +1,8 @@
 extends layout.pug
 
 block content
-	div
-		div(id='reactRoot')
-			div.loadingIcon
-		script.
-			var listId = '#{listId}';
-		script(src='/public/js/listTrainingApp.js')
+	section(id='reactRoot')
+		div.loadingIcon
+	script.
+		var listId = '#{listId}';
+	script(src='/public/js/listTrainingApp.js')

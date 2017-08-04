@@ -1,0 +1,53 @@
+.demi {
+	> article {
+		margin: 40px;
+	}
+	display: flex;
+}
+
+
+.indexHeader {
+	background-color: $tendre;
+	border-bottom: 3px solid $vif;
+
+	h1{
+		margin: 0px;
+		color: $sombre;
+		text-align: center;
+		font-family: 'choco';
+		font-size: 14vw;
+	}
+}
+
+.fbBtn, .gBtn {
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  display: block;
+  margin: auto;
+  min-width: 35vw;
+  border-radius: 8px;
+  color: $white;
+  font-size: 2.8vw;
+  padding: 15px 30px;
+  text-decoration: none;
+}
+
+.fbBtn {
+  border: solid $facebookBlue 3px;
+  background-color: $facebookBlue;
+}
+
+.fbBtn:hover {
+  color: $facebookBlue;
+  background-color: $white;
+}
+
+.gBtn {
+  border: solid $googleRed 3px;
+  background-color: $googleRed;
+}
+
+.gBtn:hover {
+  color: $googleRed;
+  background-color: $white;
+}

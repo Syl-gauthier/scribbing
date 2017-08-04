@@ -11,7 +11,7 @@ html
         h1: a(href='/') Scribbing
         h2: a(href='/list') My lists
         h2: a(href='/word') My recent words
-        p: a(href='/profil') You are logged in as #[b #{user.displayName}]
+        p.hidden: a(href='/profil') You are logged in as #[b #{user.displayName}]
         button(onclick="location.href = '/auth/logout'") Logout
         button(onclick="location.href = 'profil/setting'") settings
     
