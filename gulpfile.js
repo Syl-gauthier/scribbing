@@ -1,12 +1,13 @@
 /* eslint no-console: "off" */
 'use strict';
 var gulp = require('gulp');
+var rimraf = require('rimraf');
 var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
-var rimraf = require('rimraf');
+var vbuffer = require('vinyl-buffer');
 var nodemon = require('nodemon');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
@@ -28,6 +29,7 @@ gulp.task('clean', function(done) {
 var buildSASS = function () {
   return gulp.src('./src/styles/scribbing.scss')
     .pipe(sass().on('error', sass.logError))
+    .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(gulp.dest('./public/style/'));      
 };
 
@@ -44,7 +46,7 @@ function reactBuild(fileName) {
     b
       .bundle()
       .pipe(source(fileName + '.js'))
-      .pipe(buffer())
+      .pipe(vbuffer())
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(uglify())
       .on('error', function(err){
@@ -67,7 +69,7 @@ function reactBuild(fileName) {
     b
       .bundle()
       .pipe(source(fileName + '.js'))
-      .pipe(buffer())
+      .pipe(vbuffer())
       .pipe(sourcemaps.init({loadMaps: true}))
       .on('error', function(err){
         console.log(err.stack);
