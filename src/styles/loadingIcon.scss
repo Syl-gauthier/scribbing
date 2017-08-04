@@ -1,0 +1,18 @@
+.loadingIcon
+{
+	margin: 250px auto;
+	width: 40px;
+	height: 40px;
+	border: 8px solid $vif;
+	border-right-color: transparent;
+	border-radius: 50%;
+	box-shadow: 0 0 25px 2px #eee;
+	animation: spin 2s linear infinite;
+}
+
+@keyframes spin
+{
+	from { transform: rotate(0deg);   opacity: 0.5; }
+	50%  { transform: rotate(180deg); opacity: 1.0; }
+	to   { transform: rotate(360deg); opacity: 0.5; }
+}
