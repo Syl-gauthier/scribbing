@@ -25,5 +25,8 @@ html
     footer
       block footer
         p.hidden: a(href='/profil') You are logged in as #[b #{user.displayName}]
-    
+    block socket
+      script(src="/socket.io/socket.io.js")
+      script.
+        var socket = io.connect();
     block footScript
