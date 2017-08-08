@@ -13,6 +13,9 @@ var port = process.env.PORT || 3000;
 //routers
 var authRouter = require('./routes/auth.js');
 var listsRouter = require('./routes/lists.js');
+var searchRouter = require('./routes/search.js');
+var friendsRouter = require('./routes/friends.js');
+
 
 app.use(morgan('tiny'));
 
@@ -46,7 +49,7 @@ app.get('/', function(req, res) {
 
 app.use('/auth', authRouter);
 
-
+//after this, user must be logged in
 app.use(function(req, res, next) {
   if(req.user) {
     next();
@@ -57,6 +60,10 @@ app.use(function(req, res, next) {
 });
 
 app.use('/list', listsRouter);
+app.use('/search', searchRouter);
+app.use('/friends', friendsRouter);
+
+
 
 app.get('/dashboard',
   function(req, res) {
