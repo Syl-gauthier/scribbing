@@ -12,7 +12,7 @@ var nodemon = require('nodemon');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
-var reactApps = ['reactApp', 'listEditApp', 'listTrainingApp'];
+var reactApps = ['reactApp', 'listEditApp', 'listTrainingApp', 'discussionApp'];
 
 gulp.task('default', ['server-prod']);
 

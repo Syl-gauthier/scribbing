@@ -19,6 +19,7 @@ var authRouter = require('./routes/auth.js');
 var listsRouter = require('./routes/lists.js');
 var searchRouter = require('./routes/search.js');
 var friendsRouter = require('./routes/friends.js');
+var messagesRouter = require('./routes/messages.js');
 
 app.use(morgan('tiny'));
 
@@ -67,6 +68,7 @@ app.use(function(req, res, next) {
 app.use('/list', listsRouter);
 app.use('/search', searchRouter);
 app.use('/friends', friendsRouter);
+app.use('/messages', messagesRouter);
 
 
 
@@ -100,6 +102,11 @@ io.on('connection', function(socket) {
     sockets[_id] = socket;
     console.log(sockets);
   }
+
+  socket.on('message', function(message) {
+    console.log(message);
+    io.emit('message', message);
+  });
 
   socket.on('disconnect', function() {
     if(socket.request.session.passport) {
