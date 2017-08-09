@@ -1,0 +1,30 @@
+extends layout.pug
+
+block content
+	h1 Search
+	section
+		h2 Result
+		ul
+			-result.forEach(function(userFound) {
+			li #{userFound.displayName} 
+				-var id = userFound._id;
+
+				//-case: friend req received
+				-if(user.pendingFriendReq&& ~user.pendingFriendReq.indexOf(userFound._id + '')) { 
+				button(onclick='window.location = "/friends/accept/' + id + '";') Accept the invitation
+				-} 
+
+				//-case: friend req already sent
+				-else if(user.friendReq&& ~user.friendReq.indexOf(userFound._id + '')) {
+				button(disabled) Request sent
+				-} 
+
+				//-case: no request pending
+				-else {
+				button(onclick='window.location = "/friends/add/' + id + '";') Add
+				-}
+				-});
+
+
+
+

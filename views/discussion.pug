@@ -1,0 +1,28 @@
+extends layout.pug
+
+block content
+  h1 discussion
+  section(id='messages')
+  section
+    form
+      input(type='text' id='message')
+      input(type='button' onclick='sendMessage()')
+  
+block footScript
+  script.
+    var socket = io.connect('http://localhost:3000');
+    function sendMessage() {
+      console.log(document.getElementById('message').value);
+      socket.emit('message', document.getElementById('message').value);
+      return false;
+    }
+
+    var socket = io.connect('http:\/\/localhost:3000');
+      socket.on('message', function (message) {
+        console.log('message', message);
+        let sessionElt = document.getElementById('messages');
+        var messageElt = document.createElement('p');
+        messageElt.textContent = message;
+        console.log(messageElt);
+        sessionElt.appendChild(messageElt);
+    });

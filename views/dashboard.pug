@@ -13,7 +13,15 @@ block content
 			- });
 			- }
 	
-
+	section
+		h2 My friends
+		ul
+			-if(user.friends) {
+			-user.friends.forEach(function(friend) {
+			li
+				a(href='/user/'+user._id) #{list.name}	
+			- });
+			- }
 
 	section
 		h2 Recent words
