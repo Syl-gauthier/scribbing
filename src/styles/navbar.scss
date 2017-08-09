@@ -11,6 +11,7 @@
 	border-bottom: 3px solid $vif;
 
 	display:flex;
+	justify-content: space-between;
 	flex-wrap: wrap;
 
 	h1, h2, p, button {
