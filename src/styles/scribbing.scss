@@ -10,10 +10,12 @@ $black: #000000;
 $facebookBlue: #3B5998;
 $googleRed:#F90101;
 
+@import 'font-awesome/font-awesome.scss';
 @import 'table';
 @import 'loadingIcon';
 @import 'layout';
 @import 'index';
+@import 'elements/hidden.scss';
 
 body{
 	display: flex;

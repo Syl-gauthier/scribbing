@@ -24,12 +24,16 @@
   -moz-border-radius: 8;
   display: block;
   margin: auto;
-  min-width: 35vw;
+  min-width: 20vw;
   border-radius: 8px;
   color: $white;
-  font-size: 2.8vw;
-  padding: 15px 30px;
+  font-size: 2.4vw;
+  padding: 0.9vw 2vw 0.8vw 2vw;
   text-decoration: none;
+  i {
+    padding-right: 2vw;
+    float: left;
+  }
 }
 
 .fbBtn {

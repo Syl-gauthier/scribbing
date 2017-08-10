@@ -1,0 +1,19 @@
+//hidden.scss
+
+.hidden-small {
+	@media screen and (max-width:480px) {
+		display: none !important;
+	}
+}
+
+.hidden-medium {
+	@media screen and (max-width:720px) {
+		display: none !important;
+	}
+}
+
+.hidden-big {
+	@media screen and (max-width:1200px) {
+		display: none !important;
+	}
+}

@@ -11,20 +11,23 @@ html
 
       header.navbar
         h1: a(href='/') Scribbing
-        h2: a(href='/dashboard') Dashboard
-        h2: a(href='/messages') Messages
-        form(action='/search' methode='get')
-          input(type='text' name='query' id='searchValue' style='display: inline-block')
-          input(type='submit' value='search' style='display: inline-block')
-        button(onclick="location.href = '/auth/logout'") Logout
-        button(onclick="location.href = 'profil/setting'") settings
+        h2.hidden-small: a(href='/dashboard') Dashboard
+        h2.hidden-small: a(href='/messages') Messages
+        form.hidden-small(action='/search' methode='get')
+          input(type='text' name='query' id='searchValue' required placeholder='Search...' style='display: inline-block')
+          button(type='submit' value='search' title='Search' style='display: inline-block')
+            i.fa.fa-search(aria-hidden='true')
+        button.hidden-small(onclick="location.href = '/auth/logout'" title='Logout')
+          i.fa.fa-sign-out(aria-hidden='true')
+        button.hidden-small(onclick="location.href = 'profil/setting'" title='setting')
+          i.fa.fa-cog(aria-hidden='true')
     
     div.mainWrapper
       block content
     
     footer
       block footer
-        p.hidden: a(href='/profil') You are logged in as #[b #{user.displayName}]
+        p.hidden-small  You are logged in as #[b: a(href='/profil') #{user.displayName}]
     block socket
       script(src="/socket.io/socket.io.js")
       script.
