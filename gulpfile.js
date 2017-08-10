@@ -21,7 +21,7 @@ gulp.task('build', ['sass'].concat(reactApps.map((app) => {return app + '-prod';
 });
 
 gulp.task('clean', function(done) {
-  rimraf('public/@(style|js)/**', function(err) {
+  rimraf('public/{style/scribbing.css,js/*}', function(err) {
     done(err);
   });
 });
@@ -109,7 +109,7 @@ gulp.task('server-prod', ['watch'], function() {
 });
 
 gulp.task('watch', ['sass'].concat(reactApps), function () {
-  gulp.watch('./src/styles/*.scss', ['sass-watch']);
+  gulp.watch('./src/styles/**/*.scss', ['sass-watch']);
   reactApps.forEach(function(fileName) {
     gulp.watch('./src/react/' + fileName + '.jsx', [fileName + '-watch']);
   });
