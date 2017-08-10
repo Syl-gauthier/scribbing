@@ -11,10 +11,9 @@
 	border-bottom: 3px solid $vif;
 
 	display:flex;
-	justify-content: space-between;
 	flex-wrap: wrap;
 
-	h1, h2, p, button {
+	h1, h2, p, button, form {
 		margin: 0;
 		padding: 0 10px;
 		line-height: 100%;
@@ -28,23 +27,30 @@
 		}
 	}
 
-	h1{
+	h1 {
+		flex: 1;
 		font-size: $h1Height;
 		padding: 0 40px 0 10px;
 		padding-top: ($height - $h1Height) / 2;
 		font-family: 'choco';
 	}
 
-	h2{
+	h2 {
 		font-size: $h2Height;
 		padding-top: ($height - $h2Height) / 2;
 	}
 
-	p{	
+	p {	
 		flex: 1;
 		font-size: $pHeight;
 		padding-top: ($height - $pHeight) / 2;
 		text-align: center;
+	}
+
+	form {
+		flex: 1;
+		text-align:center;
+		padding-top: 25px;
 	}
 
 	button {
