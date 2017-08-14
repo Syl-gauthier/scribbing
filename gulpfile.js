@@ -100,7 +100,7 @@ gulp.task('server-prod', ['watch'], function() {
     // the script to run the app
     script: 'app.js',
     // this listens to changes in any of these files/routes and restarts the application
-    watch: ['app.js', 'routes/', 'lib/**'],
+    watch: ['app.js', 'routes/', 'lib/**', '.env'],
     ext: 'js'
   }).on('restart', () => {
     console.log('Change detected... restarting server...');
