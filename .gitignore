@@ -3,6 +3,7 @@ views/test.pug
 test.js
 public/style/
 public/js/
+paste-bin.md
 
 # Logs
 logs
