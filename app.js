@@ -55,6 +55,16 @@ app.get('/', function(req, res) {
 
 app.use('/auth', authRouter);
 
+if(process.env.NODE === 'dev') {
+  app.use(function(req, res, next) {
+    if (!req.user) {
+      req.user= {};
+      req.user.id = {id: 'valid user id', name: 'test user'};
+    }
+    next();
+  });
+}
+
 //after this, user must be logged in
 app.use(function(req, res, next) {
   if(req.user) {
