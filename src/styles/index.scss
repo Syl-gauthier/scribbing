@@ -1,40 +1,43 @@
+@import 'elements/fonts.scss';
+@import 'elements/colors.scss';
+@import 'font-awesome/font-awesome.scss';
+@import 'elements/default.scss';
+
 .demi {
-	> article {
-    background-color: $clair;
-		margin: 40px;
-    padding: 50px;
-    box-shadow: 2px 2px 15px $casse;
-    border-radius: 15px;
+  display: flex;
+  flex:1;
+	& > article {
+    &:first-child {
+      background-color: $clair;
+      flex:0;
+    }
+    padding: 1vw;
     flex: 1;
 	}
-	display: flex;
 }
 
+header h1 {
+  font-family: 'choco';
+	font-size: 14vw;
+  @media all and(min-width: 1024px) {
+    font-size: 143px;
+  }
+}
 
-.indexHeader {
-	background-color: $pale;
-	border-bottom: 1px solid $tendre;
-
-	h1{
-		margin: 0px;
-		color: $sombre;
-		text-align: center;
-		font-family: 'choco';
-		font-size: 14vw;
-	}
+h2 {
+  margin: 1vh;
+  font-size: 3vw;
 }
 
 .fbBtn, .gBtn {
-  -webkit-border-radius: 8;
-  -moz-border-radius: 8;
   display: block;
   margin: auto;
   min-width: 20vw;
+  margin: 2vh 0;
+  padding: 0.9vw 2vw 0.8vw 2vw;
   border-radius: 8px;
   color: $white;
   font-size: 2.4vw;
-  padding: 0.9vw 2vw 0.8vw 2vw;
-  text-decoration: none;
   i {
     padding-right: 2vw;
     float: left;
@@ -44,19 +47,17 @@
 .fbBtn {
   border: solid $facebookBlue 1px;
   background-color: $facebookBlue;
-}
-
-.fbBtn:hover {
-  color: $facebookBlue;
-  background-color: $white;
+  &:hover {
+    color: $facebookBlue;
+    background-color: $white;
+  }
 }
 
 .gBtn {
   border: solid $googleRed 1px;
   background-color: $googleRed;
-}
-
-.gBtn:hover {
-  color: $googleRed;
-  background-color: $white;
+  &:hover {
+    color: $googleRed;
+    background-color: $white;
+  }
 }

@@ -1,35 +1,32 @@
-doctype html
-html
-  head
-    meta("charset"="utf-8")
-    link(rel='stylesheet' type='text/css' href='/public/style/scribbing.css')
-    meta(name="viewport" content="width=device-width, initial-scale=1")
-    block head
+extends global.pug
+block head
+  link(rel='stylesheet' type='text/css' href='/public/style/scribbing.css')
 
-  body
-    block header
+block body
+  block header
 
-      header.navbar
-        h1: a(href='/') Scribbing
-        h2.hidden-small: a(href='/dashboard') Dashboard
-        h2.hidden-small: a(href='/messages') Messages
-        form.hidden-small(action='/search' methode='get')
-          input(type='text' name='query' id='searchValue' required placeholder='Search...' style='display: inline-block')
-          button(type='submit' value='search' title='Search' style='display: inline-block')
-            i.fa.fa-search(aria-hidden='true')
-        button.hidden-small(onclick="location.href = '/auth/logout'" title='Logout')
-          i.fa.fa-sign-out(aria-hidden='true')
-        button.hidden-small(onclick="location.href = 'profil/setting'" title='setting')
-          i.fa.fa-cog(aria-hidden='true')
-    
-    div.mainWrapper
-      block content
-    
-    footer
-      block footer
-        p.hidden-small  You are logged in as #[b: a(href='/profil') #{user.displayName}]
-    block socket
-      script(src="/socket.io/socket.io.js")
-      script.
-        var socket = io.connect();
-    block footScript
+    header.navbar
+      h1: a(href='/') Scribbing
+      h2.hidden-small: a(href='/dashboard') Dashboard
+      h2.hidden-small: a(href='/messages') Messages
+      form.hidden-small(action='/search' methode='get')
+        input(type='text' name='query' id='searchValue' required placeholder='Search...' style='display: inline-block')
+        button(type='submit' value='search' title='Search' style='display: inline-block')
+          i.fa.fa-search(aria-hidden='true')
+      button.hidden-small(onclick="location.href = '/auth/logout'" title='Logout')
+        i.fa.fa-sign-out(aria-hidden='true')
+      button.hidden-small(onclick="location.href = 'profil/setting'" title='setting')
+        i.fa.fa-cog(aria-hidden='true')
+  
+  div.mainWrapper
+    block content
+  
+  footer
+    block footer
+      p.hidden-small You are logged in as #[b: a(href='/profil') #{user.displayName}]
+  
+  block socket
+    script(src="/socket.io/socket.io.js")
+    script.
+      var socket = io.connect();
+  block footScript

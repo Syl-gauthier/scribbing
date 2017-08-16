@@ -1,58 +1,25 @@
 
-$sombre: #405952;
-$clair: #F8F8F8;
-$casse: #F5F5F0;
-$pale: #FFD393;
-$tendre: #FF974F;
-$vif: #F54F29;
-$white: #FFFFFF;
-$black: #000000;
-
-$facebookBlue: #3B5998;
-$googleRed:#F90101;
-
+@import 'elements/fonts.scss';
+@import 'elements/colors.scss';
 @import 'font-awesome/font-awesome.scss';
+@import 'elements/default.scss';
+
 @import 'table';
 @import 'loadingIcon';
 @import 'layout';
-@import 'index';
 @import 'elements/hidden.scss';
-
-body{
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-	margin: 0;
-	background-color: $clair;
-	font-family: 'Times New Roman';
-}
 
 .mainWrapper {
 	flex: 1;
-	background-color: $white;
 	width: 100%;
-	margin: auto;
-	//border-left: 2px solid $vif;
-	//border-right: 2px solid $vif;
-	font-size: 2.5vh;
-
-	a {
-		text-decoration: none;
-
-		&:hover{
-			text-decoration: underline;
-		}
-	}
 
 	h1 {
 		margin: 30px;
 		text-align: center;
-		color: $sombre;
 		font-size: 5vh;
 	}
 
 	h2 {
-		color: $sombre;
 		font-size: 4vh;
 	}
 
@@ -81,8 +48,6 @@ body{
 	}
 
 	button.classic, input[type='submit'] {
-		-webkit-border-radius: 8;
-		-moz-border-radius: 8;
 		display: inline-block;
 		margin: 10px;
 		min-width: 200px;
@@ -90,10 +55,8 @@ body{
 		color: $white;
 		font-size: 3vh;
 		padding: 15px 30px;
-		text-decoration: none;
   		border: solid $vif 3px;
   		background-color: $vif;
-
   		&:hover {
   			color: $vif;
   			background-color: $white;
@@ -103,7 +66,3 @@ body{
 
  
 
-@font-face {
-	font-family: 'choco';
-	src: url('/public/font/chocolate-covered-raindrops.ttf');
-}

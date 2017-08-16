@@ -27,7 +27,7 @@ gulp.task('clean', function(done) {
 });
 
 var buildSASS = function () {
-  return gulp.src('./src/styles/scribbing.scss')
+  return gulp.src('./src/styles/{scribbing,index}.scss')
     .pipe(sass().on('error', sass.logError))
     .pipe(cleanCSS({compatibility: 'ie8'}))
     .pipe(gulp.dest('./public/style/'));      
