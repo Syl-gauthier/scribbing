@@ -115,10 +115,12 @@ io.use(function(socket, next) {
 });
 
 io.on('connection', function(socket) {
+  console.log('connect');
   if(socket.request.session.passport) {
     console.log('connect');
     let _id = socket.request.session.passport.user.id._id;
-    sockets[_id] = socket;
+    if(!sockets[_id]) sockets[_id] = [];
+    sockets[_id].push(socket.id);
     console.log(sockets);
   }
 
@@ -131,7 +133,11 @@ io.on('connection', function(socket) {
     if(socket.request.session.passport) {
       console.log('disconnect');
       let _id = socket.request.session.passport.user.id._id;
-      delete sockets[_id];
+      sockets[_id] = sockets[_id].filter(function(socketId) {
+        if (socketId === socket.id) return false;
+        return true;
+      });
+      if (sockets[_id].length === 0) delete sockets[_id];
     }
   });
 });
