@@ -56,12 +56,23 @@ app.get('/', function(req, res) {
 app.use('/auth', authRouter);
 
 if(process.env.NODE === 'dev') {
+
   app.use(function(req, res, next) {
+    console.log(req.user);
     if (!req.user) {
-      req.user= {};
-      req.user.id = {id: 'valid user id', name: 'test user'};
+      var MongoClient = require('mongodb').MongoClient;
+      var ObjectId = require('mongodb').ObjectID;
+      MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
+        if (err) console.log(err);
+        else {
+          db.collection('users').findOne({_id: ObjectId('599404da8ac66f4157b6607c')}, function(err, result) {
+            req.user= {id: result, name: result.displayName};
+            console.log(req.user);
+            next();
+          });
+        }
+      });
     }
-    next();
   });
 }
 
