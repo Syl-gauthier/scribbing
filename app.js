@@ -56,9 +56,7 @@ app.get('/', function(req, res) {
 app.use('/auth', authRouter);
 
 if(process.env.NODE === 'dev') {
-
   app.use(function(req, res, next) {
-    console.log(req.user);
     if (!req.user) {
       var MongoClient = require('mongodb').MongoClient;
       var ObjectId = require('mongodb').ObjectID;
@@ -72,7 +70,7 @@ if(process.env.NODE === 'dev') {
           });
         }
       });
-    }
+    } else {next();}
   });
 }
 
