@@ -1,21 +1,23 @@
-extends layout.pug
-block header
-	header.indexHeader
+extends global.pug
+block head
+	link(rel='stylesheet' type='text/css' href='/public/style/index.css')
+
+block body
+	header
 		h1 Scribbing
 
-block content
 	section.demi
 		article
 			h2 Login with:
 			button.fbBtn(onclick="location.href = '/auth/facebook'") 
 				i.fa.fa-facebook(aria-hidden='true')
 				|Facebook
-			br
 			button.gBtn(onclick="location.href = '/auth/google'")
 				i.fa.fa-google(aria-hidden='true')
 				|Google
 
 		article
 			p Here will be a nice introduction text, but not today...
-block socket
-block footer
+
+	footer
+		p 
