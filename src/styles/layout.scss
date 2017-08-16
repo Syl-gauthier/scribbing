@@ -1,7 +1,6 @@
 
 .navbar, footer {
 	$margin: 5px;
-	$height: 70px;
 	$buttonHeight: 60px;
 	$h1Height: 60px;
 	$h2Height: 30px;
@@ -17,22 +16,17 @@
 	&>* {
 		margin: $margin;
 		padding: 0 5px;
-		line-height: 100%;
-		//border-right: 3px solid $tendre;
-	}
-
-	h1 {
-		cursor: pointer;
-		&:hover {
-			color: $vif;
-		}
 	}
 
 	h2, button {
-		cursor: pointer;
-		border-radius: 8px;
 		&:hover {
 			background-color: $vif;
+		}
+	}
+
+	h1, b>a {
+		&:hover {
+			color: $vif;
 		}
 	}
 
@@ -42,6 +36,7 @@
 		padding: 0 40px 0 10px;
 		padding-top: ($buttonHeight - $h1Height) / 2;
 		font-family: 'choco';
+		cursor: pointer;
 
 		@media screen and (max-width:480px) {
 			flex:1;
@@ -56,27 +51,26 @@
 		padding-top: ($buttonHeight - $h2Height) / 2;
 		border-right: 2px solid $vif;
 		border-left: 2px solid $vif;
-		
+		border-radius: 8px;
+		cursor: pointer;		
 	}
 
 	p {	
 		flex: 1;
 		font-size: $pHeight;
-		padding-top: ($buttonHeight - $pHeight) / 2;
+		padding-top: ($buttonHeight - $pHeight - 10) / 2;
 		text-align: center;
 	}
 
 	form {
 		flex: 1;
-		padding-top: 14px;
-		font-size: 20px;
+		padding-top: 11px;
 
 		input[type='text'] {
 			padding: 4px 12px;
 			border: solid 1px $sombre;
 			background: $white; 
 			border-radius: 5px 0 0 5px;
-			font-size: inherit;
 		}
 
 		button{
@@ -85,8 +79,6 @@
 			border: solid 1px $vif;
 			border-left: 0;
 			border-radius: 0 5px 5px 0;
-			color: $sombre;
-			font-size: inherit;
 		}
 	}
 
@@ -101,10 +93,10 @@
 		background-color: transparent;
 		padding: 0 10px;
 		font-size: $pHeight;
-		border: none;
-		border-right: 2px solid $vif;
-		border-left: 2px solid $vif;
-
+		border-style: solid;
+		border-color: $vif;
+		border-width: 0 2px 0 2px;
+		border-radius: 8px;
 		font-family: 'Times New Roman';
 		color: $sombre;
 	}
@@ -112,18 +104,4 @@
 	&>button>i {
 		font-size: $iHeight;
 	}
-
-	@media screen and (max-width: 480px) {
-		.hidden {
-			display: none;
-		}
-	}
-}
-
-.navbar{
-	border-bottom: 1px solid $tendre;	
-}
-
-footer {
-	border-top:1px solid $tendre;
 }
