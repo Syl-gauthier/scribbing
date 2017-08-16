@@ -1,6 +1,7 @@
 
 $sombre: #405952;
-$clair: #9C9B7A;
+$clair: #F8F8F8;
+$casse: #F5F5F0;
 $pale: #FFD393;
 $tendre: #FF974F;
 $vif: #F54F29;
@@ -29,10 +30,10 @@ body{
 .mainWrapper {
 	flex: 1;
 	background-color: $white;
-	width: 80%;
+	width: 100%;
 	margin: auto;
-	border-left: 2px solid $vif;
-	border-right: 2px solid $vif;
+	//border-left: 2px solid $vif;
+	//border-right: 2px solid $vif;
 	font-size: 2.5vh;
 
 	a {

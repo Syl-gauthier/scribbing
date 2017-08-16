@@ -1,14 +1,19 @@
 .demi {
 	> article {
+    background-color: $clair;
 		margin: 40px;
+    padding: 50px;
+    box-shadow: 2px 2px 15px $casse;
+    border-radius: 15px;
+    flex: 1;
 	}
 	display: flex;
 }
 
 
 .indexHeader {
-	background-color: $tendre;
-	border-bottom: 3px solid $vif;
+	background-color: $pale;
+	border-bottom: 1px solid $tendre;
 
 	h1{
 		margin: 0px;
@@ -37,7 +42,7 @@
 }
 
 .fbBtn {
-  border: solid $facebookBlue 3px;
+  border: solid $facebookBlue 1px;
   background-color: $facebookBlue;
 }
 
@@ -47,7 +52,7 @@
 }
 
 .gBtn {
-  border: solid $googleRed 3px;
+  border: solid $googleRed 1px;
   background-color: $googleRed;
 }
 

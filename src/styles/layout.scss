@@ -1,28 +1,38 @@
 
 .navbar, footer {
+	$margin: 5px;
 	$height: 70px;
+	$buttonHeight: 60px;
 	$h1Height: 60px;
 	$h2Height: 30px;
 	$pHeight: 20px;
 	$iHeight: 40px;
 
-	background-color: $tendre;
+	background-color: $pale;
 	color: $sombre;
-	min-height: $height;
+	min-height: $buttonHeight;
 	display:flex;
 	flex-wrap: wrap;
 
 	&>* {
-		margin: 0;
-		padding: 0 10px;
+		margin: $margin;
+		padding: 0 5px;
 		line-height: 100%;
-		border-right: 3px solid $vif;
+		//border-right: 3px solid $tendre;
 	}
 
-	h1, h2, button {
+	h1 {
+		cursor: pointer;
 		&:hover {
-			background-color: $pale;
-			color: $clair;
+			color: $vif;
+		}
+	}
+
+	h2, button {
+		cursor: pointer;
+		border-radius: 8px;
+		&:hover {
+			background-color: $vif;
 		}
 	}
 
@@ -30,7 +40,7 @@
 		font-size: $h1Height;
 		text-align:center;
 		padding: 0 40px 0 10px;
-		padding-top: ($height - $h1Height) / 2;
+		padding-top: ($buttonHeight - $h1Height) / 2;
 		font-family: 'choco';
 
 		@media screen and (max-width:480px) {
@@ -40,21 +50,25 @@
 	}
 
 	h2 {
+		min-width:160px;
+		text-align: center;
 		font-size: $h2Height;
-		padding-top: ($height - $h2Height) / 2;
+		padding-top: ($buttonHeight - $h2Height) / 2;
+		border-right: 2px solid $vif;
+		border-left: 2px solid $vif;
+		
 	}
 
 	p {	
 		flex: 1;
 		font-size: $pHeight;
-		padding-top: ($height - $pHeight) / 2;
+		padding-top: ($buttonHeight - $pHeight) / 2;
 		text-align: center;
 	}
 
 	form {
 		flex: 1;
-		text-align:center;
-		padding-top: 19px;
+		padding-top: 14px;
 		font-size: 20px;
 
 		input[type='text'] {
@@ -83,11 +97,14 @@
 
 	&>button {
 		display: block;
+		min-width: 70px;
 		background-color: transparent;
-		padding: 0 30px;
+		padding: 0 10px;
 		font-size: $pHeight;
 		border: none;
-		border-right: 3px solid $vif;
+		border-right: 2px solid $vif;
+		border-left: 2px solid $vif;
+
 		font-family: 'Times New Roman';
 		color: $sombre;
 	}
@@ -104,14 +121,9 @@
 }
 
 .navbar{
-	
-	
-
-	border-bottom: 3px solid $vif;
-
-	
+	border-bottom: 1px solid $tendre;	
 }
 
 footer {
-	border-top:3px solid $vif;
+	border-top:1px solid $tendre;
 }
