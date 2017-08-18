@@ -19,4 +19,12 @@ router.get('/', function(req, res) {
   res.render('discussion.pug', {user: req.user.id});
 });
 
+router.get('/:userId', function(req, res) {
+  if(req.user.id.friends&&~req.user.id.friends.indexOf(req.params.userId)) {
+    res.render('discussion.pug', {user: req.user.id, target: req.params.userId});
+  } else {
+    res.redirect('/');
+  }
+});
+
 module.exports = router;

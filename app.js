@@ -106,38 +106,33 @@ server.listen(port, function() {
 });
 
 
-
-//socket.io
-var sockets = {};
-
 io.use(function(socket, next) {
   expressSession(socket.request, {}, next);
 });
 
 io.on('connection', function(socket) {
+  
   console.log('connect');
-  if(socket.request.session.passport) {
-    console.log('connect');
-    let _id = socket.request.session.passport.user.id._id;
-    if(!sockets[_id]) sockets[_id] = [];
-    sockets[_id].push(socket.id);
-    console.log(sockets);
+  var passport = socket.request.session.passport;
+  //
+  if(passport) {
+    let _id = passport.user.id._id;
+    socket.join(_id);
   }
 
-  socket.on('message', function(message) {
-    console.log(message);
-    io.emit('message', message);
-  });
-
-  socket.on('disconnect', function() {
-    if(socket.request.session.passport) {
-      console.log('disconnect');
-      let _id = socket.request.session.passport.user.id._id;
-      sockets[_id] = sockets[_id].filter(function(socketId) {
-        if (socketId === socket.id) return false;
-        return true;
-      });
-      if (sockets[_id].length === 0) delete sockets[_id];
+  socket.on('message', function(data) {
+    console.log(data);
+    if (!data.target) {
+      console.log('no target');
+      io.emit('message', data.message);
+    }
+    else {
+      io.to(data.target).emit('message', data.message);
+      if(passport) {
+        io.to(passport.user.id._id).emit('message', data.message);
+      } else {
+        socket.emit('message', data.message);
+      }
     }
   });
 });
