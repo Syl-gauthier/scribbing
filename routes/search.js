@@ -18,14 +18,38 @@ var db = new Promise(function(resolve, reject) {
 router.get('/', function(req, res) {
   db.then(function(db) {
     db.collection('users').find({$text: {$search: req.query.query}}).toArray(function (err, result) {
-      res.render('search', {user: req.user.id, result});
-    }).catch(function() {
-      res.redirect('/err');
+      let user = req.user.id;
+
+      let data = result.map(function(match) {
+        let filteredMatch = {id: match._id, name: match.displayName};
+        if(arrayMatch(user, 'friends', match._id)) {
+          filteredMatch.status = 'friend';
+          return filteredMatch;
+        } else if(arrayMatch(user, 'friendReqReceived', match._id)) {
+          filteredMatch.status = 'received';
+          return filteredMatch;
+        } else if(arrayMatch(user, 'friendReqSend', match._id)) {
+          filteredMatch.status = 'send';
+          return filteredMatch;
+        } else {
+          return filteredMatch;
+        }
+      });
+      res.render('search', {user: req.user.id, data});
     });
+  }).catch(function() {
+    res.redirect('/err');
   });
 });
 
 module.exports = router;
 
+function arrayMatch(object, array, elt) {
+  elt += '';
+  if (object[array] && ~object[array].findIndex(function(user) {return elt === user.id;})) {
+    return true;
+  }
+  return false;
+}
 
-//{$text: {$serach: req.params.query}}
+

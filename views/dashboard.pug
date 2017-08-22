@@ -19,7 +19,7 @@ block content
 			-if(user.friends) {
 			-user.friends.forEach(function(friend) {
 			li
-				a(href='/messages/'+friend) oo
+				a(href='/user/'+user._id) #{friend.name}	
 			- });
 			- }
 

@@ -5,18 +5,23 @@ block content
 	section
 		h2 Result
 		ul
-			-result.forEach(function(userFound) {
-			li #{userFound.displayName} 
-				-var id = userFound._id;
+			-data.forEach(function(userFound) {
+			li #{userFound.name} 
+				-var id = userFound.id;
 
 				//-case: friend req received
-				-if(user.pendingFriendReq&& ~user.pendingFriendReq.indexOf(userFound._id + '')) { 
+				-if(userFound.status == 'received') { 
 				button(onclick='window.location = "/friends/accept/' + id + '";') Accept the invitation
 				-} 
 
 				//-case: friend req already sent
-				-else if(user.friendReq&& ~user.friendReq.indexOf(userFound._id + '')) {
+				-else if(userFound.status == 'send') {
 				button(disabled) Request sent
+				-}
+
+				//-case: already friend
+				-else if(userFound.status == 'friend') {
+				button(disabled) Already friend
 				-} 
 
 				//-case: no request pending
