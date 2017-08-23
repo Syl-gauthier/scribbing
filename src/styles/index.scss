@@ -1,9 +1,9 @@
 // src/styles/index.scss
 
-@import 'elements/fonts.scss';
-@import 'elements/colors.scss';
-@import 'font-awesome/font-awesome.scss';
-@import 'elements/default.scss';
+@import "elements/fonts.scss";
+@import "elements/colors.scss";
+@import "font-awesome/font-awesome.scss";
+@import "elements/default.scss";
 
 .demi {
   display: flex;
@@ -19,7 +19,7 @@
 }
 
 header h1 {
-  font-family: 'choco';
+  font-family: "choco";
 	font-size: 14vw;
   @media all and(min-width: 1024px) {
     font-size: 143px;

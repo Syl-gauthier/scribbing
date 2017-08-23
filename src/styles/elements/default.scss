@@ -1,12 +1,12 @@
 // src/style/elements/default.scss
 
-@import 'elements/reset.scss';
+@import "elements/reset.scss";
 
 body {
 	display: flex;
 	flex-direction: column;
 	min-height: 100vh;
-	font-family: 'Times New Roman';
+	font-family: "Times New Roman";
 	font-size: 2.5vh;
 }
 

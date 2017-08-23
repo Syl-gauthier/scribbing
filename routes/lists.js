@@ -1,17 +1,12 @@
 // routes/lists.js
 
-'use strict';
+"use strict";
 
-var router = require('express').Router();
+var router = require("express").Router();
  
-var lists = require('../lib/lists.js');
+var lists = require("../lib/lists.js");
 
-//TODO
-/*router.get('/', function(req, res) {
-  res.render('list', {list: {name: 'liste',languages: ['english', 'francais'], words:[{english: 'test', francais:'teste'}, {english: 'autre', francais: 'oui'}]}});
-});*/
-
-router.post('/new/submit',
+router.post("/new/submit",
   function(req, res) {
     var data = {};
     data.name = req.body.name;
@@ -20,50 +15,47 @@ router.post('/new/submit',
     data.userId = req.user._id;
     lists.insert(data, function(err, result) {
       if (err) {
-        console.log(err);
-        res.redirect('/err');
-      }
-      else {
+        res.redirect("/err");
+      } else {
         req.user.listsIds.push(result);
-        res.redirect('/list/update/' + result._id);
+        res.redirect("/list/update/" + result._id);
       }
     });
   }
 );
 
-router.get('/new',
+router.get("/new",
   function(req,res) {
-    console.log('I\'ve been here');
-    res.render('newList', {user: req.user});
+    res.render("newList", {user: req.user});
   }
 );
 
-router.get('/training/:listId', 
+router.get("/training/:listId", 
   function(req, res) {
-    res.render('listTraining', {listId: req.params.listId, user: req.user});
+    res.render("listTraining", {listId: req.params.listId, user: req.user});
   }
 );
 
-router.get('/get/:listId', function(req, res) {
+router.get("/get/:listId", function(req, res) {
   lists.read(req.params.listId, function(err, result) {
-    if(err) res.send('An error occured while fetching your list\n' + result);
+    if(err) res.send("An error occured while fetching your list\n" + result);
     else {
       res.send(result);
     }
   });
 });
 
-router.get('/:listId', function(req, res) {
+router.get("/:listId", function(req, res) {
   lists.read(req.params.listId, function(err, result) {
     if (err) {
-      res.redirect('/');
+      res.redirect("/");
     }
     else {
       if(req.user) {
-        res.render('list', {list: result, user: req.user});
+        res.render("list", {list: result, user: req.user});
       }
       else {
-        res.redirect('/');
+        res.redirect("/");
       }
     }
   });
@@ -77,7 +69,7 @@ router.use(function(req, res, next) {
         cb();
       }
       else {
-        res.redirect('/err');
+        res.redirect("/err");
       }
     });
   };
@@ -85,12 +77,12 @@ router.use(function(req, res, next) {
 });
 
 //reserved to list owner
-router.post('/update', function(req, res) {
+router.post("/update", function(req, res) {
   var data = {_id: req.body.meta._id, name: req.body.meta.name, languages: req.body.languages, words: req.body.words};
   req.listOwnerCheck(req.body.meta._id, function() {
     lists.update(data, function(err, result) {
       if(err){
-        res.send('An error occured while saving\n' + result);
+        res.send("An error occured while saving\n" + result);
       }
       else {
         res.send(result);
@@ -101,27 +93,27 @@ router.post('/update', function(req, res) {
 
 
 //reserved to list owner
-router.get('/update/:listId', 
+router.get("/update/:listId", 
   function(req, res) {
     req.listOwnerCheck(req.params.listId, function() {
-      res.render('listEdit', {listId: req.params.listId, user: req.user});
+      res.render("listEdit", {listId: req.params.listId, user: req.user});
     });
   }
 );
 
 //reserved to list owner
-router.get('/del/:listId', function(req, res) {
+router.get("/del/:listId", function(req, res) {
   req.listOwnerCheck(req.params.listId, function() {
     lists.del(req.params.listId, function(err) {
       if (err) {
-        res.redirect('/err');
+        res.redirect("/err");
       }
       else {
         req.user.listsIds = req.user.listsIds.filter(function(list) {
           if (list._id == req.params.listId) return false;
           return true;
         });
-        res.redirect('/');
+        res.redirect("/");
       }
     });
   }); 

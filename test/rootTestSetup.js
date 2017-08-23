@@ -1,12 +1,12 @@
 // test/rootTestSetup.js
 
-'use strict';
+"use strict";
 
-var mongo = require('mongodb');
-require('dotenv').config();
+var mongo = require("mongodb");
+require("dotenv").config();
 
 var db;
-before('setting database', function(done) {
+before("setting database", function(done) {
   db = new Promise(function(resolve, reject) {
     mongo.MongoClient.connect(process.env.DB_CRED, function(err, db) {
       if (err) {
@@ -25,7 +25,7 @@ before('setting database', function(done) {
   });
 });
 
-after('resetting database', function(done) {
+after("resetting database", function(done) {
   resetData(done);
 });
 
@@ -34,11 +34,11 @@ function setData(done) {
 
   //setup database
   var testUsers = [{
-    _id: mongo.ObjectID('507f191e1111112222000000'),
-    facebookId: '10000111122223333',
-    googleId: '100000111112222233333',
-    displayName: 'Test user 1',
-    email: 'testuser1@test.test',
+    _id: mongo.ObjectID("507f191e1111112222000000"),
+    facebookId: "10000111122223333",
+    googleId: "100000111112222233333",
+    displayName: "Test user 1",
+    email: "testuser1@test.test",
     lists: [],
     words: [],
     modification: now,
@@ -46,24 +46,24 @@ function setData(done) {
     test: true
   },
   {
-    _id: mongo.ObjectID('507f191e1111112222000001'),
-    facebookId: '20000111122223333',
-    googleId: '200000111112222233333',
-    displayName: 'Test user 2',
-    email: 'testuser2@test.test',
+    _id: mongo.ObjectID("507f191e1111112222000001"),
+    facebookId: "20000111122223333",
+    googleId: "200000111112222233333",
+    displayName: "Test user 2",
+    email: "testuser2@test.test",
     lists: [{
-      _id: '507f191e1111112222000100',
-      name: 'test list 1'
+      _id: "507f191e1111112222000100",
+      name: "test list 1"
     },{
-      _id: '507f191e1111112222000101',
-      name: 'test list 2'
+      _id: "507f191e1111112222000101",
+      name: "test list 2"
     }],
     words: [{
-      _id: '507f191e1111112222000200',
-      string: 'testos / testus'
+      _id: "507f191e1111112222000200",
+      string: "testos / testus"
     },{
-      _id: '507f191e1111112222000201',
-      string: 'banane / banana'
+      _id: "507f191e1111112222000201",
+      string: "banane / banana"
     }],
     modification: now,
     lastlog: now,
@@ -71,55 +71,55 @@ function setData(done) {
   }];
 
   var testLists = [{
-    _id: mongo.ObjectID('507f191e1111112222000100'),
-    name: 'test list 1',
+    _id: mongo.ObjectID("507f191e1111112222000100"),
+    name: "test list 1",
     languages: [],
     words: [],
     modification: now,
     test: true
   },{
-    _id: mongo.ObjectID('507f191e1111112222000101'),
-    name: 'test list 2',
-    languages: ['lang1', 'lang2'],
+    _id: mongo.ObjectID("507f191e1111112222000101"),
+    name: "test list 2",
+    languages: ["lang1", "lang2"],
     words: [{
-      _id: '507f191e1111112222000200',
-      lang1: 'testos',
-      lang2: 'testus',
+      _id: "507f191e1111112222000200",
+      lang1: "testos",
+      lang2: "testus",
     }, {
-      _id: '507f191e1111112222000201',
-      lang1: '', 
-      lang2: ''
+      _id: "507f191e1111112222000201",
+      lang1: "", 
+      lang2: ""
     }],
     modification: now,
     test: true
   }];
 
   var testWords = [{
-    _id: mongo.ObjectID('507f191e1111112222000200'),
-    userId: '507f191e1111112222000001',
-    languages: ['lang1', 'lang2'],
-    lang1: 'testos',
-    lang2: 'testus',
+    _id: mongo.ObjectID("507f191e1111112222000200"),
+    userId: "507f191e1111112222000001",
+    languages: ["lang1", "lang2"],
+    lang1: "testos",
+    lang2: "testus",
     modification: now,
     test: true
   },
   {
-    _id: mongo.ObjectID('507f191e1111112222000201'),
-    userId: '507f191e1111112222000001',
-    languages: ['lang1', 'lang2'],
-    lang1: 'banane',
-    lang2: 'banana',
+    _id: mongo.ObjectID("507f191e1111112222000201"),
+    userId: "507f191e1111112222000001",
+    languages: ["lang1", "lang2"],
+    lang1: "banane",
+    lang2: "banana",
     modification: now,
     test: true
   }];
 
 
   db.then(function(db) {
-    db.collection('users').insertMany(testUsers, function(err) {
+    db.collection("users").insertMany(testUsers, function(err) {
       if (err) done(err);
-      db.collection('lists').insertMany(testLists, function(err) {
+      db.collection("lists").insertMany(testLists, function(err) {
         if (err) done(err);
-        db.collection('words').insertMany(testWords, function(err) {
+        db.collection("words").insertMany(testWords, function(err) {
           done(err);
         });
       });
@@ -129,11 +129,11 @@ function setData(done) {
 
 function resetData(done) {
   db.then(function(db) {
-    db.collection('users').deleteMany({test: true}, function(err) {
+    db.collection("users").deleteMany({test: true}, function(err) {
       if (err) done(err);
-      db.collection('lists').deleteMany({test: true}, function(err) {
+      db.collection("lists").deleteMany({test: true}, function(err) {
         if (err) done(err);
-        db.collection('words').deleteMany({test: true}, function(err) {
+        db.collection("words").deleteMany({test: true}, function(err) {
           done(err);
         });
       });

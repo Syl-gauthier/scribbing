@@ -1,14 +1,13 @@
 // src/react/listTrainingApp.jsx
 /* eslint no-unused-vars: "off" */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
-import {combineReducers} from 'redux';
-import request from 'request';
+import React from "react";
+import ReactDOM from "react-dom";
+import {createStore} from "redux";
+import {combineReducers} from "redux";
+import request from "request";
 
-console.log('listId', listId)
-request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
+request(window.location.origin + "/list/get/"+listId, function(err, res, body) {
   let idIncr = 0; // for words unique keys
 
   var body = JSON.parse(body);
@@ -47,16 +46,16 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   var trainingStart = new Date();
 
   data.training = data.words.reduce(function(acc, word) {
-    if (!(new Date(word.training.directOrder.dueDate) > trainingStart)) { //if dueDate == undefined, dueDate > trainingStart and dueDate < trainingStart are both false. So testing if dueDate is't after trainingStart
-      acc.allWords.push({id: word.id, order: 'directOrder'});
+    if (!(new Date(word.training.directOrder.dueDate) > trainingStart)) { //if dueDate == undefined, dueDate > trainingStart and dueDate < trainingStart are both false. So testing if dueDate is"t after trainingStart
+      acc.allWords.push({id: word.id, order: "directOrder"});
       if (!word.training.directOrder.count) {
-        acc.newWords.push({id: word.id, order: 'directOrder'});
+        acc.newWords.push({id: word.id, order: "directOrder"});
       }
     } 
     else if (!(new Date(word.training.reverseOrder.dueDate) > trainingStart)) {
-      acc.allWords.push({id: word.id, order: 'reverseOrder'});
+      acc.allWords.push({id: word.id, order: "reverseOrder"});
       if (!word.training.reverseOrder.count) {
-        acc.newWords.push({id: word.id, order: 'reverseOrder'});
+        acc.newWords.push({id: word.id, order: "reverseOrder"});
       }
     }
     return acc;
@@ -83,8 +82,8 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
     let stats;
 
     switch(action.type) {
-    case 'KNEW_LEARNING':
-    case 'SUCCESS_TRAINING':
+    case "KNEW_LEARNING":
+    case "SUCCESS_TRAINING":
       return state.map(function(word) {
         if (word.id === action.currWord.id) {
           let training = Object.assign({}, word.training);
@@ -102,8 +101,8 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
           return Object.assign({}, word);
         }
       });
-    case 'NEXT_LEARNING':
-    case 'RETRY_TRAINING':
+    case "NEXT_LEARNING":
+    case "RETRY_TRAINING":
       return state.map(function(word) {
         if (word.id === action.id) {
           let training = Object.assign({}, word.training);
@@ -114,7 +113,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
           return Object.assign({}, word);
         }
       });
-    case 'FAIL_TRAINING':
+    case "FAIL_TRAINING":
       return state.map(function(word) {
         if (word.id === action.id) {
           var palier = word.training[action.currWord.order].palier;
@@ -141,10 +140,10 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   // languages reducer (TODO)
   const languages = (state = [], action) => {
     switch(action.type) {
-    case 'ADD_LANGUAGE':
+    case "ADD_LANGUAGE":
       if(~state.IndexOf(action.language)) return state;
       else return [...state, action.language];
-    case 'DELETE_LANGUAGE':
+    case "DELETE_LANGUAGE":
       return state.filter(function(language) {
         if (language = action.language) return false;
         return true;
@@ -159,14 +158,14 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
     let allWords;
 
     switch(action.type) {
-      case 'START_TRAINING':
+      case "START_TRAINING":
         if(state.newWords.length < 1) return Object.assign({}, state, {step: 2});
         return Object.assign({}, state, {step: 1});
-      case 'NEXT_LEARNING':
+      case "NEXT_LEARNING":
         newWords = state.newWords.slice(1);
         if(newWords.length < 1) return Object.assign({}, state, {step: 2, newWords});
         return Object.assign({}, state, {step: 1, newWords});
-      case 'KNEW_LEARNING':
+      case "KNEW_LEARNING":
         let allWords = state.allWords.filter(function(word) {
           if (word.id == state.newWords[0].id) return false;
           return true;
@@ -177,19 +176,19 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
           return Object.assign({}, state, {step: 2});
         }
         return Object.assign({}, state, {step: 1, newWords: state.newWords.slice(1), allWords});
-      case 'SHOW_ANSWER':
+      case "SHOW_ANSWER":
         return Object.assign({}, state, {step: 3});
-      case 'FAIL_TRAINING':
-      case 'RETRY_TRAINING':
+      case "FAIL_TRAINING":
+      case "RETRY_TRAINING":
         allWords = [...state.allWords];
         allWords.push(allWords.shift());
         return Object.assign({}, state, {step: 2, allWords});
-      case 'SUCCESS_TRAINING':
+      case "SUCCESS_TRAINING":
         allWords = state.allWords.slice(1);
         if(allWords.length < 1) {
           return Object.assign({}, state, {step: 4, allWords}); }
         return Object.assign({}, state, {step: 2, allWords});
-      case 'END_TRAINING':
+      case "END_TRAINING":
         return Object.assign({}, state, {step: 4});
       default:
         return state;
@@ -198,9 +197,9 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
 
   // meta include al the global info about a list
   // meta reducer
-  const meta = (state = {name: 'Untitled'}, action) => {
+  const meta = (state = {name: "Untitled"}, action) => {
     switch(action.type) {
-    case 'UPDATE_NAME':
+    case "UPDATE_NAME":
       return Object.assign({}, state, {name: action.name});
     default:
       return state;
@@ -208,13 +207,12 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   };
 
   function save(state, cb) {
-    console.log('save');
 
     //filter non-valid words
     state.words = state.words.filter(function(word, index) {
       var pass = true;
       Object.keys(word).forEach(function (key) {
-        if (word[key] === '*') {
+        if (word[key] === "*") {
           return pass = false;
         }
         return true;
@@ -236,7 +234,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
 
     delete state.training;
 
-    request.post({url: window.location.origin + '/list/update', form: state}, function(err, res, body) {
+    request.post({url: window.location.origin + "/list/update", form: state}, function(err, res, body) {
       cb(err, res, body);
     });
   }
@@ -253,32 +251,32 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
     nextState.training = training(state.training, action);
 
     switch(action.type) {
-      case 'RESET':
+      case "RESET":
         nextState = data;
         break;
-      case 'SAVE':
+      case "SAVE":
         save(state, function() {
         delete nextState.freeze;
         window.location.reload(true)
         });
         nextState.freeze = true;
         break;
-      case 'DELETE':
-        var response = confirm('Are you sure you want to delete this list ?');
+      case "DELETE":
+        var response = confirm("Are you sure you want to delete this list ?");
         if(response) {
-          window.location.replace('/list/del/' + listId);
+          window.location.replace("/list/del/" + listId);
         }
         break;
-      case 'END_TRAINING':
+      case "END_TRAINING":
         save(state, function() {
-          window.location = '/';
+          window.location = "/";
         });
     }
 
     return nextState;
   }
 
-  // createStore's API is { subscribe, dispatch, getState }.
+  // createStore"s API is { subscribe, dispatch, getState }.
   let store = createStore(listEditApp, data);
 
   //react elements
@@ -292,7 +290,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
       if (this.props.freeze) {
         var freezeText = <p>Saving.... No modifications are possible.</p>
       } else {
-        var freezeText = '';
+        var freezeText = "";
       }
       if(this.props.training.newWords.length > 0) {
         var currWord = this.props.training.newWords[0];
@@ -327,7 +325,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
           );
           break;
         case 2:
-          if (currWord.order === 'directOrder') {
+          if (currWord.order === "directOrder") {
             contents = (
               <h3>{this.props.languages[0]} : {currWord[this.props.languages[0]]}</h3>
             ); 
@@ -339,7 +337,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
           }      
           break;
         case 3:
-          if (currWord.order === 'directOrder') {
+          if (currWord.order === "directOrder") {
             contents = (
               <div>
                 <h3>{this.props.languages[0]} : {currWord[this.props.languages[0]]}</h3>
@@ -391,39 +389,39 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
       case 0:
         buttons = (
           <div>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'START_TRAINING' })}} > start </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "START_TRAINING" })}} > start </button>
           </div>
         );
         break;
       case 1:
         buttons = (
           <div>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'NEXT_LEARNING', currWord: this.props.currWord })}} > next </button>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'KNEW_LEARNING', currWord: this.props.currWord })}} > I already knew this word </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "NEXT_LEARNING", currWord: this.props.currWord })}} > next </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "KNEW_LEARNING", currWord: this.props.currWord })}} > I already knew this word </button>
           </div>
         );
         break;
       case 2:
         buttons = (
           <div>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'SHOW_ANSWER' })}} > Show answer </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "SHOW_ANSWER" })}} > Show answer </button>
           </div>
         );
         break;
       case 3:
         buttons = (
           <div>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'FAIL_TRAINING', currWord: this.props.currWord })}} > I didn't knew </button>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'RETRY_TRAINING', currWord: this.props.currWord })}} > I wasn't sure </button>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'SUCCESS_TRAINING', currWord: this.props.currWord })}} > I know this word </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "FAIL_TRAINING", currWord: this.props.currWord })}} > I didn"t knew </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "RETRY_TRAINING", currWord: this.props.currWord })}} > I wasn"t sure </button>
+            <button className="classic" onClick={() => {store.dispatch({ type: "SUCCESS_TRAINING", currWord: this.props.currWord })}} > I know this word </button>
           </div>
         );
         break;
       case 4:
       case 5:
         buttons = (
-          <section className='command'>
-            <button className='classic' onClick={() => {store.dispatch({ type: 'END_TRAINING' })}} > Save and return to dashboard </button>
+          <section className="command">
+            <button className="classic" onClick={() => {store.dispatch({ type: "END_TRAINING" })}} > Save and return to dashboard </button>
           </section>
         );
         break;
@@ -440,7 +438,7 @@ request(window.location.origin + '/list/get/'+listId, function(err, res, body) {
   const renderApp = () => {
     ReactDOM.render(
       <ListTraining {...store.getState()}/>,
-      document.getElementById('reactRoot')
+      document.getElementById("reactRoot")
     );
   };
 

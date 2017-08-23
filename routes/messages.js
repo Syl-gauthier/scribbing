@@ -1,10 +1,10 @@
 // routes/messages.js
 
-'use strict';
+"use strict";
 
-var router = require('express').Router();
+var router = require("express").Router();
 
-var MongoClient = require('mongodb').MongoClient;
+var MongoClient = require("mongodb").MongoClient;
 var url = process.env.DB_CRED;
 
 var db = new Promise(function(resolve, reject) {
@@ -18,15 +18,15 @@ var db = new Promise(function(resolve, reject) {
   });
 });
 
-router.get('/', function(req, res) {
-  res.render('discussion.pug', {user: req.user});
+router.get("/", function(req, res) {
+  res.render("discussion.pug", {user: req.user});
 });
 
-router.get('/:userId', function(req, res) {
+router.get("/:userId", function(req, res) {
   if(req.user.friends&&~req.user.friends.indexOf(req.params.userId)) {
-    res.render('discussion.pug', {user: req.user, target: req.params.userId});
+    res.render("discussion.pug", {user: req.user, target: req.params.userId});
   } else {
-    res.redirect('/');
+    res.redirect("/");
   }
 });
 

@@ -13,7 +13,6 @@ block footScript
   script.
     var target = '#{target}';    
     function sendMessage() {
-      console.log('click');
       var data = {target, message: document.getElementById('message').value};
       socket.emit('message', data);
       return false;
@@ -21,10 +20,8 @@ block footScript
 
     var socket = io.connect();
     socket.on('message', function (message) {
-      console.log('message', message);
       let sessionElt = document.getElementById('messages');
       var messageElt = document.createElement('p');
       messageElt.textContent = message;
-      console.log(messageElt);
       sessionElt.appendChild(messageElt);
     });

@@ -1,14 +1,14 @@
 // src/style/scribbing.scss
 
-@import 'elements/fonts.scss';
-@import 'elements/colors.scss';
-@import 'font-awesome/font-awesome.scss';
-@import 'elements/default.scss';
+@import "elements/fonts.scss";
+@import "elements/colors.scss";
+@import "font-awesome/font-awesome.scss";
+@import "elements/default.scss";
 
-@import 'table';
-@import 'loadingIcon';
-@import 'layout';
-@import 'elements/hidden.scss';
+@import "table";
+@import "loadingIcon";
+@import "layout";
+@import "elements/hidden.scss";
 
 .mainWrapper {
 	flex: 1;
@@ -36,7 +36,7 @@
 		text-align: center;
 	}
 
-	input[type='text'] {
+	input[type="text"] {
 		margin: 2px;
 		font-size: 2vh;
 		border: 1px solid $vif;
@@ -48,7 +48,7 @@
 		}
 	}
 
-	button.classic, input[type='submit'] {
+	button.classic, input[type="submit"] {
 		display: inline-block;
 		margin: 10px;
 		min-width: 200px;

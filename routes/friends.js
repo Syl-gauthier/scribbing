@@ -1,11 +1,11 @@
 // routes/friends.js
 
-'use strict';
+"use strict";
 
-var router = require('express').Router();
-var ObjectId = require('mongodb').ObjectID;
+var router = require("express").Router();
+var ObjectId = require("mongodb").ObjectID;
 
-var MongoClient = require('mongodb').MongoClient;
+var MongoClient = require("mongodb").MongoClient;
 
 var url = process.env.DB_CRED;
 
@@ -20,7 +20,7 @@ var db = new Promise(function(resolve, reject) {
   });
 });
 
-router.get('/accept/:userId', function(req, res) {
+router.get("/accept/:userId", function(req, res) {
   let received = req.user.friendReqReceived.findIndex(function(user) {
     return user.id === req.params.userId;
   });
@@ -29,7 +29,7 @@ router.get('/accept/:userId', function(req, res) {
 
     db.then(function(db) {
       return new Promise(function (resolve, reject) {
-        db.collection('users').findOne({_id: ObjectId(req.params.userId)}, {displayName: 1, friendReqSend: 1}, function(err, result) {
+        db.collection("users").findOne({_id: ObjectId(req.params.userId)}, {displayName: 1, friendReqSend: 1}, function(err, result) {
           if (err) reject(err);
 
           let send = result.friendReqSend.findIndex(function(user) {
@@ -38,14 +38,14 @@ router.get('/accept/:userId', function(req, res) {
 
           if(~send) {
             resolve({db, userAdded: result});
-          } else reject('no-friend-req-send');
+          } else reject("no-friend-req-send");
 
         });
       });
     }).then(function(val) {
       Promise.all([
         new Promise(function(resolve, reject) {
-          val.db.collection('users').updateOne(
+          val.db.collection("users").updateOne(
             {_id: ObjectId(req.user._id)}, 
             {
               $addToSet: {friends: {id: req.params.userId, name: val.userAdded.displayName}},
@@ -60,7 +60,7 @@ router.get('/accept/:userId', function(req, res) {
           );
         }),
         new Promise(function(resolve, reject) {
-          val.db.collection('users').updateOne(
+          val.db.collection("users").updateOne(
             {_id: ObjectId(req.params.userId)}, 
             {
               $addToSet: {friends: {id: req.user._id, name: req.user.displayName}},
@@ -74,24 +74,24 @@ router.get('/accept/:userId', function(req, res) {
         })
       ]).then(
         function() {
-          res.redirect('/');
+          res.redirect("/");
         }, 
         function(err) {
-          res.redirect('/err?err=' + err);
+          res.redirect("/err?err=" + err);
         }
       );
 
     });
 
   } else {
-    res.redirect('/err?err=no-friend-req-received');
+    res.redirect("/err?err=no-friend-req-received");
   }
 });
 
-router.get('/add/:userId', function(req, res) {
+router.get("/add/:userId", function(req, res) {
   db.then(function(db) {
     return new Promise(function (resolve, reject) {
-      db.collection('users').findOne({_id: ObjectId(req.params.userId)}, {displayName: 1}, function(err, result) {
+      db.collection("users").findOne({_id: ObjectId(req.params.userId)}, {displayName: 1}, function(err, result) {
         if (err) reject(err);
         resolve({db, userAdded: result});
       });
@@ -100,7 +100,7 @@ router.get('/add/:userId', function(req, res) {
     Promise.all([ //save the friend request on the sender and the receiver profile (resp.: friendReq pendingFriendReq)
       new Promise(function(resolve, reject) {
 
-        val.db.collection('users').updateOne(
+        val.db.collection("users").updateOne(
           {_id: ObjectId(req.user._id)}, 
           {$addToSet: 
             {friendReqSend: {id: req.params.userId, name: val.userAdded.displayName}}
@@ -116,7 +116,7 @@ router.get('/add/:userId', function(req, res) {
       }),
       new Promise(function(resolve, reject) {
 
-        val.db.collection('users').updateOne(
+        val.db.collection("users").updateOne(
           {_id: ObjectId(req.params.userId)}, 
           {$addToSet: 
             {friendReqReceived: {id: req.user._id, name: req.user.displayName}}
@@ -129,9 +129,9 @@ router.get('/add/:userId', function(req, res) {
 
       })
     ]).then(function() {
-      res.redirect('/');
+      res.redirect("/");
     }).catch(function(err) {
-      res.redirect('/err?err=' + err);
+      res.redirect("/err?err=" + err);
     });
   });
 });
