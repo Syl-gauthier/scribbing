@@ -17,12 +17,26 @@ var port = process.env.PORT || 3000;
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 
+//unique db connection
+const url = process.env.DB_CRED;
+var MongoClient = require("mongodb").MongoClient;
+var db = new Promise(function(resolve, reject) {
+  MongoClient.connect(url, function(err, db) {
+    if (err) {
+      reject(err);
+    }
+    else {
+      resolve(db);
+    }
+  });
+});
+
 //routers
-var authRouter = require("./routes/auth.js");
-var listsRouter = require("./routes/lists.js");
-var searchRouter = require("./routes/search.js");
-var friendsRouter = require("./routes/friends.js");
-var messagesRouter = require("./routes/messages.js");
+var authRouter = require("./routes/auth.js")(db);
+var listsRouter = require("./routes/lists.js")(db);
+var searchRouter = require("./routes/search.js")(db);
+var friendsRouter = require("./routes/friends.js")(db);
+var messagesRouter = require("./routes/messages.js")(db);
 
 app.use(morgan("tiny"));
 
@@ -61,18 +75,13 @@ app.use("/auth", authRouter);
 if(process.env.NODE === "dev") {
   app.use(function(req, res, next) {
     if (!req.user) {
-      var MongoClient = require("mongodb").MongoClient;
       var ObjectId = require("mongodb").ObjectID;
-      MongoClient.connect(process.env.DB_CRED, function(err, db) {
-        if (err) console.log(err);
-        else {
-          db.collection("users").findOne({_id: ObjectId("599404da8ac66f4157b6607c")}, function(err, result) {
-            req.user= result;
-            console.log(req.user);
-            next();
-          });
-        }
-      });
+      db.then(function(db) {
+        db.collection("users").findOne({_id: ObjectId("599404da8ac66f4157b6607c")}, function(err, result) {
+          req.user= result;
+          next();
+        });
+      }).catch(function() {res.redirect("/err");});
     } else {next();}
   });
 }
@@ -91,8 +100,6 @@ app.use("/list", listsRouter);
 app.use("/search", searchRouter);
 app.use("/friends", friendsRouter);
 app.use("/messages", messagesRouter);
-
-
 
 app.get("/dashboard",
   function(req, res) {
@@ -115,7 +122,6 @@ io.use(function(socket, next) {
 
 io.on("connection", function(socket) {
   
-  console.log("connect");
   var passport = socket.request.session.passport;
   //
   if(passport) {
@@ -124,9 +130,7 @@ io.on("connection", function(socket) {
   }
 
   socket.on("message", function(data) {
-    console.log(data);
     if (!data.target) {
-      console.log("no target");
       io.emit("message", data.message);
     }
     else {
