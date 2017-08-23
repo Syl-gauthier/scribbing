@@ -1,5 +1,8 @@
+// gulpfile.js
 /* eslint no-console: "off" */
+
 'use strict';
+
 var gulp = require('gulp');
 var rimraf = require('rimraf');
 var sass = require('gulp-sass');
@@ -114,5 +117,3 @@ gulp.task('watch', ['sass'].concat(reactApps), function () {
     gulp.watch('./src/react/' + fileName + '.jsx', [fileName + '-watch']);
   });
 });
-
-

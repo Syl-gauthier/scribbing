@@ -1,3 +1,5 @@
+
 --timeout=5000
+
 ./test/*.js
 ./lib/*.test.js

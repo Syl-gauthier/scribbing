@@ -1,4 +1,6 @@
+// src/react/listTrainingApp.jsx
 /* eslint no-unused-vars: "off" */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux';

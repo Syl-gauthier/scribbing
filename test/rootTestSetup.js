@@ -1,3 +1,6 @@
+// test/rootTestSetup.js
+
+'use strict';
 
 var mongo = require('mongodb');
 require('dotenv').config();

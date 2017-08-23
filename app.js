@@ -1,5 +1,8 @@
+// app.js
 /* eslint no-console: "off" */
+
 'use strict';
+
 require('dotenv').config();
 
 const express = require('express');
@@ -136,4 +139,3 @@ io.on('connection', function(socket) {
     }
   });
 });
-

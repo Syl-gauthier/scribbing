@@ -1,3 +1,5 @@
+# .gitignore
+
 #custom
 views/test.pug
 test.js

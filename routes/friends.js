@@ -1,4 +1,7 @@
+// routes/friends.js
+
 'use strict';
+
 var router = require('express').Router();
 var ObjectId = require('mongodb').ObjectID;
 
@@ -134,4 +137,4 @@ router.get('/add/:userId', function(req, res) {
 });
 
 
-module.exports = router; 
+module.exports = router;

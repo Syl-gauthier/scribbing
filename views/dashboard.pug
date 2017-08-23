@@ -1,3 +1,5 @@
+//- views/dashboard.pug
+
 extends layout.pug
 
 block content
@@ -21,7 +23,9 @@ block content
 			li
 				a(href='/user/'+user._id) #{friend.name}	
 			- });
-			- }
+			- } else {
+			p you don't have any friends yet.
+			-}
 
 	section
 		h2 Recent words

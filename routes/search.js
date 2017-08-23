@@ -1,4 +1,7 @@
+// routes/search.js
+
 'use strict';
+
 var router = require('express').Router();
 
 var MongoClient = require('mongodb').MongoClient;
@@ -51,5 +54,3 @@ function arrayMatch(object, array, elt) {
   }
   return false;
 }
-
-
