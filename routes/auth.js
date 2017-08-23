@@ -30,7 +30,7 @@ passport.use(new facebookStrategy({
 },
 function(accessToken, refreshToken, profile, cb) {
   user.login('facebook', profile, function(err, userId) {
-    return cb(err, {id: userId, name: profile.displayName});
+    return cb(err, userId);
   });
 }));
 
@@ -53,7 +53,7 @@ passport.use(new googleStrategy({
 },
 function(accessToken, refreshToken, profile, cb) {
   user.login('google', profile, function(err, userId) {
-    return cb(err, {id: userId, name: profile.displayName});
+    return cb(err, userId);
   });
 }));
 

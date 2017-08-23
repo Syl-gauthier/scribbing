@@ -21,24 +21,22 @@ var db = new Promise(function(resolve, reject) {
 router.get('/', function(req, res) {
   db.then(function(db) {
     db.collection('users').find({$text: {$search: req.query.query}}).toArray(function (err, result) {
-      let user = req.user.id;
-
       let data = result.map(function(match) {
         let filteredMatch = {id: match._id, name: match.displayName};
-        if(arrayMatch(user, 'friends', match._id)) {
+        if(arrayMatch(req.user, 'friends', match._id)) {
           filteredMatch.status = 'friend';
           return filteredMatch;
-        } else if(arrayMatch(user, 'friendReqReceived', match._id)) {
+        } else if(arrayMatch(req.user, 'friendReqReceived', match._id)) {
           filteredMatch.status = 'received';
           return filteredMatch;
-        } else if(arrayMatch(user, 'friendReqSend', match._id)) {
+        } else if(arrayMatch(req.user, 'friendReqSend', match._id)) {
           filteredMatch.status = 'send';
           return filteredMatch;
         } else {
           return filteredMatch;
         }
       });
-      res.render('search', {user: req.user.id, data});
+      res.render('search', {user: req.user, data});
     });
   }).catch(function() {
     res.redirect('/err');

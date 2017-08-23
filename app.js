@@ -67,7 +67,7 @@ if(process.env.NODE === 'dev') {
         if (err) console.log(err);
         else {
           db.collection('users').findOne({_id: ObjectId('599404da8ac66f4157b6607c')}, function(err, result) {
-            req.user= {id: result, name: result.displayName};
+            req.user= result;
             console.log(req.user);
             next();
           });
@@ -96,12 +96,12 @@ app.use('/messages', messagesRouter);
 
 app.get('/dashboard',
   function(req, res) {
-    res.render('dashboard', {user: req.user.id});
+    res.render('dashboard', {user: req.user});
   }
 );
 
 app.use(function(req, res) {
-  res.status(404).render('404', {user: req.user.id});
+  res.status(404).render('404', {user: req.user});
 });
 
 server.listen(port, function() {

@@ -21,7 +21,7 @@ var db = new Promise(function(resolve, reject) {
 });
 
 router.get('/accept/:userId', function(req, res) {
-  let received = req.user.id.friendReqReceived.findIndex(function(user) {
+  let received = req.user.friendReqReceived.findIndex(function(user) {
     return user.id === req.params.userId;
   });
 
@@ -33,7 +33,7 @@ router.get('/accept/:userId', function(req, res) {
           if (err) reject(err);
 
           let send = result.friendReqSend.findIndex(function(user) {
-            return user.id === req.user.id._id;
+            return user.id === req.user._id;
           });
 
           if(~send) {
@@ -46,7 +46,7 @@ router.get('/accept/:userId', function(req, res) {
       Promise.all([
         new Promise(function(resolve, reject) {
           val.db.collection('users').updateOne(
-            {_id: ObjectId(req.user.id._id)}, 
+            {_id: ObjectId(req.user._id)}, 
             {
               $addToSet: {friends: {id: req.params.userId, name: val.userAdded.displayName}},
               $pull: {friendReqReceived: {id: req.params.userId}}
@@ -54,7 +54,7 @@ router.get('/accept/:userId', function(req, res) {
             function(err, result) {
               if(err) reject(err);
               let newFriend = {id: req.params.userId, name: val.userAdded.displayName};
-              req.user.id.friends ? req.user.id.friends.push(newFriend): req.user.id.friends = [newFriend];
+              req.user.friends ? req.user.friends.push(newFriend): req.user.friends = [newFriend];
               resolve(result);
             }
           );
@@ -63,8 +63,8 @@ router.get('/accept/:userId', function(req, res) {
           val.db.collection('users').updateOne(
             {_id: ObjectId(req.params.userId)}, 
             {
-              $addToSet: {friends: {id: req.user.id._id, name: req.user.id.displayName}},
-              $pull: {friendReqSend: {id: req.user.id._id}}
+              $addToSet: {friends: {id: req.user._id, name: req.user.displayName}},
+              $pull: {friendReqSend: {id: req.user._id}}
             }, 
             function(err, result) {
               if(err) reject(err);
@@ -101,14 +101,14 @@ router.get('/add/:userId', function(req, res) {
       new Promise(function(resolve, reject) {
 
         val.db.collection('users').updateOne(
-          {_id: ObjectId(req.user.id._id)}, 
+          {_id: ObjectId(req.user._id)}, 
           {$addToSet: 
             {friendReqSend: {id: req.params.userId, name: val.userAdded.displayName}}
           },
           function(err, result) {
             if(err) reject(err);
             let newFriend = {id: req.params.userId, name: val.userAdded.displayName};
-            req.user.id.friendReqSend ? req.user.id.friendReqSend.push(newFriend) : req.user.id.friendReqSend = [newFriend] ; //update the store variable
+            req.user.friendReqSend ? req.user.friendReqSend.push(newFriend) : req.user.friendReqSend = [newFriend] ; //update the store variable
             resolve(result);
           }
         );
@@ -119,7 +119,7 @@ router.get('/add/:userId', function(req, res) {
         val.db.collection('users').updateOne(
           {_id: ObjectId(req.params.userId)}, 
           {$addToSet: 
-            {friendReqReceived: {id: req.user.id._id, name: req.user.id.displayName}}
+            {friendReqReceived: {id: req.user._id, name: req.user.displayName}}
           }, 
           function(err, result) {
             if(err) reject(err);

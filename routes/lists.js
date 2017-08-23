@@ -17,14 +17,14 @@ router.post('/new/submit',
     data.name = req.body.name;
     var languages = [req.body.language1, req.body.language2];
     data.languages = languages;
-    data.userId = req.user.id._id;
+    data.userId = req.user._id;
     lists.insert(data, function(err, result) {
       if (err) {
         console.log(err);
         res.redirect('/err');
       }
       else {
-        req.user.id.listsIds.push(result);
+        req.user.listsIds.push(result);
         res.redirect('/list/update/' + result._id);
       }
     });
@@ -34,13 +34,13 @@ router.post('/new/submit',
 router.get('/new',
   function(req,res) {
     console.log('I\'ve been here');
-    res.render('newList', {user: req.user.id});
+    res.render('newList', {user: req.user});
   }
 );
 
 router.get('/training/:listId', 
   function(req, res) {
-    res.render('listTraining', {listId: req.params.listId, user: req.user.id});
+    res.render('listTraining', {listId: req.params.listId, user: req.user});
   }
 );
 
@@ -60,7 +60,7 @@ router.get('/:listId', function(req, res) {
     }
     else {
       if(req.user) {
-        res.render('list', {list: result, user: req.user.id});
+        res.render('list', {list: result, user: req.user});
       }
       else {
         res.redirect('/');
@@ -73,7 +73,7 @@ router.get('/:listId', function(req, res) {
 router.use(function(req, res, next) {
   req.listOwnerCheck = function(listId, cb) {
     lists.read(listId, function(err, result) {
-      if (result.userId == req.user.id._id) {
+      if (result.userId == req.user._id) {
         cb();
       }
       else {
@@ -104,7 +104,7 @@ router.post('/update', function(req, res) {
 router.get('/update/:listId', 
   function(req, res) {
     req.listOwnerCheck(req.params.listId, function() {
-      res.render('listEdit', {listId: req.params.listId, user: req.user.id});
+      res.render('listEdit', {listId: req.params.listId, user: req.user});
     });
   }
 );
@@ -117,7 +117,7 @@ router.get('/del/:listId', function(req, res) {
         res.redirect('/err');
       }
       else {
-        req.user.id.listsIds = req.user.id.listsIds.filter(function(list) {
+        req.user.listsIds = req.user.listsIds.filter(function(list) {
           if (list._id == req.params.listId) return false;
           return true;
         });

@@ -19,12 +19,12 @@ var db = new Promise(function(resolve, reject) {
 });
 
 router.get('/', function(req, res) {
-  res.render('discussion.pug', {user: req.user.id});
+  res.render('discussion.pug', {user: req.user});
 });
 
 router.get('/:userId', function(req, res) {
-  if(req.user.id.friends&&~req.user.id.friends.indexOf(req.params.userId)) {
-    res.render('discussion.pug', {user: req.user.id, target: req.params.userId});
+  if(req.user.friends&&~req.user.friends.indexOf(req.params.userId)) {
+    res.render('discussion.pug', {user: req.user, target: req.params.userId});
   } else {
     res.redirect('/');
   }
