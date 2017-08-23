@@ -60,7 +60,7 @@ if(process.env.NODE === 'dev') {
     if (!req.user) {
       var MongoClient = require('mongodb').MongoClient;
       var ObjectId = require('mongodb').ObjectID;
-      MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
+      MongoClient.connect(process.env.DB_CRED, function(err, db) {
         if (err) console.log(err);
         else {
           db.collection('users').findOne({_id: ObjectId('599404da8ac66f4157b6607c')}, function(err, result) {

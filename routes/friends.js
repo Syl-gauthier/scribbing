@@ -4,7 +4,7 @@ var ObjectId = require('mongodb').ObjectID;
 
 var MongoClient = require('mongodb').MongoClient;
 
-var url = process.env.DB_LOCAL;
+var url = process.env.DB_CRED;
 
 var db = new Promise(function(resolve, reject) {
   MongoClient.connect(url, function(err, db) {

@@ -5,7 +5,7 @@ require('dotenv').config();
 var db;
 before('setting database', function(done) {
   db = new Promise(function(resolve, reject) {
-    mongo.MongoClient.connect(process.env.DB_LOCAL, function(err, db) {
+    mongo.MongoClient.connect(process.env.DB_CRED, function(err, db) {
       if (err) {
         reject(err);
       }

@@ -20,8 +20,8 @@ passport.deserializeUser(function(user, done) {
 
 //facebook login
 passport.use(new facebookStrategy({
-  clientID: process.env.FACEBOOK_LOCAL_ID,
-  clientSecret: process.env.FACEBOOK_LOCAL_SECRET,
+  clientID: process.env.FACEBOOK_ID,
+  clientSecret: process.env.FACEBOOK_SECRET,
   callbackURL: '/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos', 'email']
 },
@@ -44,8 +44,8 @@ router.get('/facebook/callback',
 
 //google login
 passport.use(new googleStrategy({
-  clientID: process.env.GOOGLE_LOCAL_ID,
-  clientSecret: process.env.GOOGLE_LOCAL_SECRET,
+  clientID: process.env.GOOGLE_ID,
+  clientSecret: process.env.GOOGLE_SECRET,
   callbackURL: '/auth/google/callback'
 },
 function(accessToken, refreshToken, profile, cb) {
