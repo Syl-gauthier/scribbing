@@ -15,7 +15,7 @@ var port = process.env.PORT || 3000;
 
 //socket.io
 var server = require("http").Server(app);
-var io = require("socket.io")(server);
+var socket = require("socket/socketHub.js");
 
 //unique db connection
 const url = process.env.DB_CRED;
@@ -114,35 +114,8 @@ app.use(function(req, res) {
   res.status(404).render("404", {user: req.user});
 });
 
+socket(server, expressSession);
+
 server.listen(port, function() {
   console.log("\x1b[32m", "app listening on port", port, "\x1b[0m");
-});
-
-
-io.use(function(socket, next) {
-  expressSession(socket.request, {}, next);
-});
-
-io.on("connection", function(socket) {
-  
-  var passport = socket.request.session.passport;
-  //
-  if(passport) {
-    let _id = passport.user._id;
-    socket.join(_id);
-  }
-
-  socket.on("message", function(data) {
-    if (!data.target) {
-      io.emit("message", data.message);
-    }
-    else {
-      io.to(data.target).emit("message", data.message);
-      if(passport) {
-        io.to(passport.user._id).emit("message", data.message);
-      } else {
-        socket.emit("message", data.message);
-      }
-    }
-  });
 });
