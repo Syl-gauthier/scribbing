@@ -125,7 +125,7 @@ io.on("connection", function(socket) {
   var passport = socket.request.session.passport;
   //
   if(passport) {
-    let _id = passport.user.id._id;
+    let _id = passport.user._id;
     socket.join(_id);
   }
 
@@ -136,7 +136,7 @@ io.on("connection", function(socket) {
     else {
       io.to(data.target).emit("message", data.message);
       if(passport) {
-        io.to(passport.user.id._id).emit("message", data.message);
+        io.to(passport.user._id).emit("message", data.message);
       } else {
         socket.emit("message", data.message);
       }
