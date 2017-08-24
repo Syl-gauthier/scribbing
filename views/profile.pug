@@ -1,0 +1,9 @@
+//- views/profile.pug
+
+extends layout.pug
+
+block content
+	h1 #{profile.displayName}
+
+	section
+		a(href='/messages/'+profile._id) chat

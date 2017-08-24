@@ -21,7 +21,7 @@ block content
 			-if(user.friends) {
 			-user.friends.forEach(function(friend) {
 			li
-				a(href='/user/'+user._id) #{friend.name}	
+				a(href='/user/'+friend.id) #{friend.name}	
 			- });
 			- } else {
 			p you don't have any friends yet.

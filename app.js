@@ -37,6 +37,8 @@ var listsRouter = require("./routes/lists.js")(db);
 var searchRouter = require("./routes/search.js")(db);
 var friendsRouter = require("./routes/friends.js")(db);
 var messagesRouter = require("./routes/messages.js")(db);
+var userRouter = require("./routes/user.js")(db);
+
 
 app.use(morgan("tiny"));
 
@@ -100,6 +102,7 @@ app.use("/list", listsRouter);
 app.use("/search", searchRouter);
 app.use("/friends", friendsRouter);
 app.use("/messages", messagesRouter);
+app.use("/user", userRouter);
 
 app.get("/dashboard",
   function(req, res) {

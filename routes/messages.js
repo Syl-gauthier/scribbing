@@ -10,7 +10,13 @@ module.exports = function(db) {
   });
 
   router.get("/:userId", function(req, res) {
-    if(req.user.friends&&~req.user.friends.indexOf(req.params.userId)) {
+    if(req.user.friends) {
+      var index = req.user.friends.findIndex(function(user) {
+        return user.id === req.params.userId;
+      });
+    }
+
+    if(~index) {
       res.render("discussion.pug", {user: req.user, target: req.params.userId});
     } else {
       res.redirect("/");
