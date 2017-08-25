@@ -6,15 +6,18 @@ block content
   h1 discussion
   section(id='messages')
   section
-    input(type='text' id='message')
-    button(onclick='sendMessage()') button
+    form#messenger(onsubmit="return sendMessage()")
+      input(type='text' id='message')
+      input(type="submit" value="Send") 
   
 block footScript
   script.
-    var target = '#{target}';    
+    var target = '#{target}';
+
     function sendMessage() {
       var data = {target, message: document.getElementById('message').value};
       socket.emit('message', data);
+      document.getElementById('messenger').reset();
       return false;
     }
 

@@ -5,9 +5,12 @@
 var router = require("express").Router();
 
 module.exports = function(db) {
+
+  /*
   router.get("/", function(req, res) {
     res.render("discussion.pug", {user: req.user});
   });
+  */
 
   router.get("/:userId", function(req, res) {
     if(req.user.friends) {

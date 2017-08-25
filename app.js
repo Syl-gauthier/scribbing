@@ -15,7 +15,7 @@ var port = process.env.PORT || 3000;
 
 //socket.io
 var server = require("http").Server(app);
-var socket = require("socket/socketHub.js");
+var socket = require("./socket/socketHub.js");
 
 //unique db connection
 const url = process.env.DB_CRED;
